@@ -557,7 +557,7 @@ class Pelt:
 
         # Now, choose the pelt category and pelt. The extra 0 is for the tortie pelts,
         chosen_marking = choice(
-            random.choices(Pelt.pelt_categories, weights=weights + [0], k=1)[0]
+            random.choices(Pelt.pelt_categories, weights=weights, k=1)[0]
         )
 
         # Tortie chance
