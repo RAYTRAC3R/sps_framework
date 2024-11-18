@@ -33,13 +33,19 @@ class Sprites:
             with open("sprites/dicts/tint.json", 'r') as read_file:
                 self.cat_tints = ujson.loads(read_file.read())
         except IOError:
-            print("ERROR: Reading Tints")
+            print("ERROR: Reading Base Tints")
 
         try:
             with open("sprites/dicts/white_patches_tint.json", 'r') as read_file:
                 self.white_patches_tints = ujson.loads(read_file.read())
         except IOError:
             print("ERROR: Reading White Patches Tints")
+            
+        try:
+            with open("sprites/dicts/marking_tint.json", 'r') as read_file:
+                self.markings_tints = ujson.loads(read_file.read())
+        except:
+            print("ERROR: Reading Marking Tints")
 
     def spritesheet(self, a_file, name):
         """
@@ -132,7 +138,7 @@ class Sprites:
                 'scars', 'missingscars',
                 'medcatherbs',
                 'collars', 'bellcollars', 'bowcollars', 'nyloncollars',
-                'singlecolours', 'speckledcolours', 'tabbycolours', 'bengalcolours', 'marbledcolours',
+                'base', 'overlays/underfur', 'overlays/overfur', 'markings/markings', 'bengalcolours', 'marbledcolours',
                 'rosettecolours', 'smokecolours', 'tickedcolours', 'mackerelcolours', 'classiccolours',
                 'sokokecolours', 'agouticolours', 'singlestripecolours', 'maskedcolours',
                 'shadersnewwhite', 'lightingnew',
@@ -154,6 +160,17 @@ class Sprites:
 
             self.make_group('lineartdead', (0, 0), f'lineartdead{f}_')
             self.make_group('lineartdf', (0, 0), f'lineartdf{f}_')
+            
+            # Base Color
+            self.make_group('base', (0, 0), f'base{f}_')
+            # Markings
+            for a, i in enumerate(['Tabby', 'Masked']):
+                self.make_group('markings/markings', (a, 0), f'mark{f}_{i}')
+            # Overlays
+            for a, i in enumerate(['strong', 'medium']):
+                self.make_group('overlays/underfur', (a, 0), f'underfur{f}_{i}')
+            for a, i in enumerate(['strong', 'medium']):
+                self.make_group('overlays/overfur', (a, 0), f'overfur{f}_{i}')
 
             # Fading Fog
             for i in range(0, 3):
@@ -199,25 +216,6 @@ class Sprites:
             for row, patches in enumerate(white_patches):
                 for col, patch in enumerate(patches):
                     self.make_group('whitepatches', (col, row), f'white{f}_{patch}')
-
-            # Define colors and categories
-            color_categories = [
-                ['WHITE', 'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'GHOST', 'BLACK'],
-                ['CREAM', 'PALEGINGER', 'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA'],
-                ['LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN', 'CHOCOLATE']
-            ]
-
-            color_types = [
-                'singlecolours', 'tabbycolours', 'marbledcolours', 'rosettecolours',
-                'smokecolours', 'tickedcolours', 'speckledcolours', 'bengalcolours',
-                'mackerelcolours', 'classiccolours', 'sokokecolours', 'agouticolours',
-                'singlestripecolours', 'maskedcolours'
-            ]
-
-            for row, colors in enumerate(color_categories):
-                for col, color in enumerate(colors):
-                    for color_type in color_types:
-                        self.make_group(color_type, (col, row), f'{color_type[:-7]}{f}_{color}')
 
             # tortiepatchesmasks
             tortiepatchesmasks = [
