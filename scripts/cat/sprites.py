@@ -46,6 +46,13 @@ class Sprites:
                 self.markings_tints = ujson.loads(read_file.read())
         except:
             print("ERROR: Reading Marking Tints")
+            
+        try:
+            with open("sprites/dicts/eye_tint.json", 'r') as read_file:
+                self.eye_tints = ujson.loads(read_file.read())
+        except:
+            print("ERROR: Reading Eye Tints")
+        self.eye_random = self.eye_tints["enable_random"]
 
     def spritesheet(self, a_file, name):
         """
@@ -139,9 +146,7 @@ class Sprites:
                 'scars', 'missingscars',
                 'medcatherbs',
                 'collars', 'bellcollars', 'bowcollars', 'nyloncollars',
-                'base', 'overlays/underfur', 'overlays/overfur', 'markings/markings', 'bengalcolours', 'marbledcolours',
-                'rosettecolours', 'smokecolours', 'tickedcolours', 'mackerelcolours', 'classiccolours',
-                'sokokecolours', 'agouticolours', 'singlestripecolours', 'maskedcolours',
+                'base', 'overlays/underfur', 'overlays/overfur', 'markings/markings', 'eyes/eyes',
                 'shadersnewwhite', 'lightingnew',
                 'whitepatches', 'tortiepatchesmasks',
                 'fademask', 'fadestarclan', 'fadedarkforest',
@@ -167,6 +172,11 @@ class Sprites:
             # Markings
             for a, i in enumerate(['Gradsocks', 'Gradhoof']):
                 self.make_group('markings/markings', (a, 0), f'mark{f}_{i}')
+            # Eyes
+            for a, i in enumerate(['base', 'shade', 'pupil']):
+                self.make_group('eyes/eyes', (a, 0), f'eyes{i}')
+            for a, i in enumerate(['base', 'shade', 'pupil']):
+                self.make_group('eyes/eyes', (a, 1), f'eyes2{i}')
             # Overlays
             for a, i in enumerate(['strong', 'medium']):
                 self.make_group('overlays/underfur', (a, 0), f'underfur{f}_{i}')
@@ -178,18 +188,6 @@ class Sprites:
                 self.make_group('fademask', (i, 0), f'fademask{f}_{i}')
                 self.make_group('fadestarclan', (i, 0), f'fadestarclan{f}_{i}')
                 self.make_group('fadedarkforest', (i, 0), f'fadedf{f}_{i}')
-
-            # Define eye colors
-            eye_colors = [
-                ['YELLOW', 'AMBER', 'HAZEL', 'PALEGREEN', 'GREEN', 'BLUE', 'DARKBLUE', 'GREY', 'CYAN', 'EMERALD',
-                 'HEATHERBLUE', 'SUNLITICE'],
-                ['COPPER', 'SAGE', 'COBALT', 'PALEBLUE', 'BRONZE', 'SILVER', 'PALEYELLOW', 'GOLD', 'GREENYELLOW']
-            ]
-
-            for row, colors in enumerate(eye_colors):
-                for col, color in enumerate(colors):
-                    self.make_group('eyes', (col, row), f'eyes{f}_{color}')
-                    self.make_group('eyes2', (col, row), f'eyes2{f}_{color}')
 
             # Define white patches
             white_patches = [
