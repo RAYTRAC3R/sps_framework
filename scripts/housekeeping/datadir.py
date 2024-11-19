@@ -31,7 +31,9 @@ def get_data_dir():
 
     from platformdirs import user_data_dir
 
-    return user_data_dir('ClanGen', 'ClanGen')
+    if get_version_info().is_dev():
+        return user_data_dir('PrismGen', 'ClanGen')
+    return user_data_dir('PrismGen', 'ClanGen')
 
 
 def get_log_dir():
@@ -45,10 +47,8 @@ def get_save_dir():
 def get_cache_dir():
     return get_data_dir() + '/cache'
 
-
 def get_temp_dir():
     return get_data_dir() + '/.temp'
-
 
 def get_saved_images_dir():
     return get_data_dir() + '/saved_images'
