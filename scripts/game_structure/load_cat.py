@@ -83,6 +83,7 @@ def json_load():
                     cat["eye_colour2"] = "COBALT"
 
             new_cat.pelt = Pelt(
+                name=cat["pelt_name"],
                 marking=cat["marking"],
                 marking_shade=cat["marking_shade"],
                 marking_color=cat["marking_color"],

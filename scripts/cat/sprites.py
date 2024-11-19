@@ -63,7 +63,8 @@ class Sprites:
                    name,
                    sprites_x=3,
                    sprites_y=7,
-                   no_index=False):  # pos = ex. (2, 3), no single pixels
+                   no_index=False,
+                   spritesize = 64):  # pos = ex. (2, 3), no single pixels
 
         """
         Divide sprites on a spritesheet into groups of sprites that are easily accessible
@@ -75,8 +76,8 @@ class Sprites:
         :param no_index: default False, set True if sprite name does not require cat pose index
         """
 
-        group_x_ofs = pos[0] * sprites_x * self.size
-        group_y_ofs = pos[1] * sprites_y * self.size
+        group_x_ofs = pos[0] * sprites_x * spritesize
+        group_y_ofs = pos[1] * sprites_y * spritesize
         i = 0
 
         # splitting group into singular sprites and storing into self.sprites section
@@ -90,9 +91,9 @@ class Sprites:
                 try:
                     new_sprite = pygame.Surface.subsurface(
                         self.spritesheets[spritesheet],
-                        group_x_ofs + x * self.size,
-                        group_y_ofs + y * self.size,
-                        self.size, self.size
+                        group_x_ofs + x * spritesize,
+                        group_y_ofs + y * spritesize,
+                        spritesize, spritesize
                     )
 
                 except ValueError:
@@ -100,7 +101,7 @@ class Sprites:
                     print(f"WARNING: nonexistent sprite - {full_name}")
                     if not self.blank_sprite:
                         self.blank_sprite = pygame.Surface(
-                            (self.size, self.size),
+                            (spritesize, spritesize),
                             pygame.HWSURFACE | pygame.SRCALPHA
                         )
                     new_sprite = self.blank_sprite
@@ -368,7 +369,7 @@ class Sprites:
                     self.make_group('symbols',
                                     (i + x_mod, y_pos),
                                     f"symbol{symbol.upper()}{variant_index}",
-                                    sprites_x=1, sprites_y=1, no_index=True)
+                                    sprites_x=1, sprites_y=1, no_index=True, spritesize=50)
 
             y_pos += 1
 
