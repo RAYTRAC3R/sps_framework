@@ -101,6 +101,7 @@ def json_load():
                 underfur=cat["underfur"],
                 underfur_tint=cat["underfur_tint"],
                 overfur=cat["overfur"],
+                overfur_tint=cat["overfur_tint"] if "overfur_tint" in cat else cat["marking_tint"],
                 pattern=cat["pattern"],
                 tortiepattern=cat["tortie_pattern"],
                 tortie_color=cat["tortie_color"],
@@ -110,6 +111,7 @@ def json_load():
                 tortie_marking_shade=cat["tortie_shade"],
                 tortie_marking_tint=cat["tortie_tint"],
                 tortie_underfur_tint=cat["tortie_underfur_tint"],
+                tortie_overfur_tint=cat["tortie_overfur_tint"] if "tortie_overfur_tint" in cat else cat["tortie_marking_tint"],
                 length=cat["pelt_length"],
                 paralyzed=cat["paralyzed"],
                 kitten_sprite=(

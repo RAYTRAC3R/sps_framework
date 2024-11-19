@@ -558,12 +558,12 @@ def create_new_cat_block(
                     )
                 else:  # completely new name
                     chosen_cat.name.give_prefix(
-                        eyes=chosen_cat.pelt.eye_colour,
-                        colour=chosen_cat.pelt.colour,
+                        eyes=chosen_cat.pelt.eye_color,
+                        colour=chosen_cat.pelt.tint_color,
                         biome=game.clan.biome,
                     )
                     chosen_cat.name.give_suffix(
-                        pelt=chosen_cat.pelt.colour,
+                        pelt=chosen_cat.pelt.tint_color,
                         biome=game.clan.biome,
                         tortiepattern=chosen_cat.pelt.tortiepattern,
                     )
@@ -2510,7 +2510,7 @@ def generate_sprite(
         eye_tint.fill(tuple(sprites.eye_tints["tint_colours"][cat.pelt.eye_tint]))
         
         over_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-        over_tint.fill(tuple(sprites.markings_tints["tint_colours"][cat.pelt.marking_tint]))
+        over_tint.fill(tuple(sprites.markings_tints["tint_colours"][cat.pelt.overfur_tint]))
         under_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
         under_tint.fill(tuple(sprites.cat_tints["tint_colours"][cat.pelt.underfur_tint]))
         
@@ -2599,7 +2599,7 @@ def generate_sprite(
             t_under_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
             
             t_over_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
-            t_over_tint.fill(tuple(sprites.markings_tints["tint_colours"][cat.pelt.tortie_marking_tint]))
+            t_over_tint.fill(tuple(sprites.markings_tints["tint_colours"][cat.pelt.tortie_overfur_tint]))
             
             # Base Coat
             patches.blit(tortie_base_tint, (0,0), special_flags=pygame.BLEND_RGB_MULT)

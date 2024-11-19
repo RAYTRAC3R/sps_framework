@@ -211,6 +211,9 @@ class Game:
             self.tint_pools = ujson.loads(read_file.read())
         with open(f"resources/tintconfigs/color_inheritance.json", 'r') as read_file:
             self.tint_inheritance = ujson.loads(read_file.read())
+            
+        with open(f"resources/tintconfigs/tint_categories.json", 'r') as read_file:
+            self.tint_category_names = ujson.loads(read_file.read())
 
         if self.config["fun"]["april_fools"]:
             self.config["fun"]["newborns_can_roam"] = True

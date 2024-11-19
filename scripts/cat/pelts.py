@@ -193,6 +193,7 @@ class Pelt:
                  underfur:str=None,
                  underfur_tint:str=None,
                  overfur:str=None,
+                 overfur_tint:str=None,
                  marking:str=None,
                  marking_shade:str=None,
                  marking_color:str=None,
@@ -207,6 +208,7 @@ class Pelt:
                  tortie_marking_color:str=None,
                  tortie_marking_tint:str=None,
                  tortie_underfur_tint:str=None,
+                 tortie_overfur_tint:str=None,
                  vitiligo: str = None,
                  points: str = None,
                  accessory: str = None,
@@ -249,6 +251,7 @@ class Pelt:
         self.underfur = underfur
         self.underfur_tint = underfur_tint
         self.overfur = overfur
+        self.overfur_tint = overfur_tint
         self.marking = marking
         self.marking_shade = marking_shade
         self.marking_color = marking_color
@@ -263,6 +266,7 @@ class Pelt:
         self.tortie_marking_color = tortie_marking_color
         self.tortie_marking_tint = tortie_marking_tint
         self.tortie_underfur_tint = tortie_underfur_tint
+        self.tortie_overfur_tint = tortie_overfur_tint
         self.vitiligo = vitiligo
         self.length = length
         self.points = points
@@ -899,7 +903,13 @@ class Pelt:
                     # Allow any colors that aren't the base color.
                     self.tortie_color = choice(Pelt.color_categories)
                     self.tortie_shade = choice(Pelt.shade_categories)
+                    
                     if game.tint_pools["use_color_pool"] == "true":
+                        possible_colors = sprites.cat_tints["possible_tints"][f"{self.tortie_color}_{self.tortie_shade}"].copy()
+                        if self.tint in possible_colors:
+                            possible_colors.remove(self.tint)
+                        self.tortie_tint = choice(possible_colors)
+                        
                         possible_colors = game.tint_pools["color_presets"][f"{game.tint_preset}"]["color_pools"]["marking_pool"][f"{self.tortie_color}"]
                         self.tortie_marking_color = random.choices(possible_colors, k=1)[0]
                         
@@ -920,6 +930,15 @@ class Pelt:
                     shade_selection = random.choices(Pelt.shade_categories, weights=weights, k=1)[0]
                     color_tints = sprites.cat_tints["possible_tints"][f"{self.tortie_color}_{shade_selection}"]
                     self.tortie_underfur_tint = choice(color_tints)
+                    
+                    # Overfur tint
+                    if self.tortiepattern is None:
+                        weights = [0, 5, 2]
+                        shade_selection = random.choices(Pelt.shade_categories, weights=weights, k=1)[0]
+                        color_tints = sprites.cat_tints["possible_tints"][f"{self.tortie_marking_color}_{shade_selection}"]
+                        self.tortie_overfur_tint = choice(color_tints)
+                    else:
+                        self.tortie_overfur_tint = self.tortie_marking_tint
 
                 else:
                     # Normal generation
@@ -963,7 +982,17 @@ class Pelt:
                     
                     if self.tint in possible_colors:
                         possible_colors.remove(self.tint)
+                        
                     self.tortie_tint = choice(possible_colors)
+                    
+                    # Overfur tint
+                    if self.tortiepattern is None:
+                        weights = [0, 5, 2]
+                        shade_selection = random.choices(Pelt.shade_categories, weights=weights, k=1)[0]
+                        color_tints = sprites.cat_tints["possible_tints"][f"{self.tortie_marking_color}_{shade_selection}"]
+                        self.tortie_overfur_tint = choice(color_tints)
+                    else:
+                        self.tortie_overfur_tint = self.tortie_marking_tint
 
             else:
                 self.tortie_color = "orange"
@@ -1162,6 +1191,14 @@ class Pelt:
         # MARKING TINT
         color_tints = sprites.markings_tints["possible_tints"][f"{self.marking_color}_{self.marking_shade}"]
         self.marking_tint = choice(color_tints)
+        
+        if self.marking is None:
+            weights = [0, 5, 2]
+            shade_selection = random.choices(Pelt.shade_categories, weights=weights, k=1)[0]
+            color_tints = sprites.cat_tints["possible_tints"][f"{self.tint_color}_{shade_selection}"]
+            self.overfur_tint = choice(color_tints)
+        else:
+            self.overfur_tint = self.marking_tint
 
         # WHITE PATCHES TINT
         if self.white_patches or self.points:
