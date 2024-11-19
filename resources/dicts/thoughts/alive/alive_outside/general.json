@@ -72,15 +72,7 @@
             "child/parent"
         ],
         "main_status_constraint": [
-            "apprentice",
-            "mediator apprentice",
-            "medicine cat apprentice",
-            "warrior", 
-            "mediator", 
-            "medicine cat", 
-            "deputy", 
-            "leader", 
-            "elder"
+            "any"
         ]
     },
     {
@@ -92,15 +84,7 @@
             "siblings"
         ],
         "main_status_constraint": [
-            "apprentice",
-            "mediator apprentice",
-            "medicine cat apprentice",
-            "warrior", 
-            "mediator", 
-            "medicine cat", 
-            "deputy", 
-            "leader", 
-            "elder"
+            "any"
         ]
     },
     {
@@ -127,15 +111,7 @@
             "Thought {PRONOUN/m_c/subject} spotted r_c while wandering around earlier"
         ],
         "main_status_constraint": [
-           "apprentice",
-            "mediator apprentice",
-            "medicine cat apprentice",
-            "warrior", 
-            "mediator", 
-            "medicine cat", 
-            "deputy", 
-            "leader", 
-            "elder"
+           "any"
         ],
         "random_status_constraint": [
             "any"
