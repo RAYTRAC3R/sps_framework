@@ -180,7 +180,7 @@ class Sprites:
             # Overlays
             for a, i in enumerate(['strong', 'medium']):
                 self.make_group('overlays/underfur', (a, 0), f'underfur{f}_{i}')
-            for a, i in enumerate(['strong', 'medium', 'smoke']):
+            for a, i in enumerate(['strong', 'medium', 'smoke', 'bubble', 'overcast', 'ash']):
                 self.make_group('overlays/overfur', (a, 0), f'overfur{f}_{i}')
 
             # Fading Fog

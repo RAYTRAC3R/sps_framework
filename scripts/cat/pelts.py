@@ -59,10 +59,10 @@ class Pelt:
     
     blend_modes = ["add", "multiply", None]
     # Overlay types
-    underfur_types = ['strong', 'medium']
-    overfur_types = ['strong', 'medium', 'smoke']
-    underfur_weights = [90, 70]
-    overfur_weights = [90, 70, 40]
+    underfur_types = ['strong']
+    overfur_types = ['strong']
+    overfur_weights = [50]
+    underfur_weights = [60]
 
 
     tortiepatterns = ['ONE', 'TWO', 'THREE', 'FOUR', 'REDTAIL', 'DELILAH', 'MINIMALONE', 'MINIMALTWO', 'MINIMALTHREE',
