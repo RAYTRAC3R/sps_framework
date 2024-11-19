@@ -655,27 +655,25 @@ class Pelt:
 
             
         # Determine pelt.
-        weights = [0, 0, 0, 0]  # Weights for each pelt group. It goes: (tabbies, spotted, plain, exotic)
+        weights = [0, 0]  # Weights for each pelt group. It goes: (tabbies, spotted, plain, exotic)
         for p_ in par_peltmarkings:
-            if p_ in Pelt.tabbies:
-                add_weight = (50, 10, 5, 7)
-            elif p_ in Pelt.spotted:
-                add_weight = (10, 50, 5, 5)
+            if p_ in Pelt.legs:
+                add_weight = (50, 5)
             elif p_ in Pelt.plain:
-                add_weight = (5, 5, 50, 0)
+                add_weight = (5, 50)
             elif p_ in Pelt.exotic:
-                add_weight = (15, 15, 1, 45)
+                add_weight = (15, 15)
             elif p_ is None:  # If there is at least one unknown parent, a None will be added to the set.
-                add_weight = (35, 20, 30, 15)
+                add_weight = (20, 35)
             else:
-                add_weight = (0, 0, 0, 0)
+                add_weight = (0, 0)
 
             for x in range(0, len(weights)):
                 weights[x] += add_weight[x]
 
         # A quick check to make sure all the weights aren't 0
         if all([x == 0 for x in weights]):
-            weights = [1, 1, 1, 1]
+            weights = [1, 1]
 
         # Now, choose the pelt category and pelt. The extra 0 is for the tortie pelts,
         chosen_marking = choice(
