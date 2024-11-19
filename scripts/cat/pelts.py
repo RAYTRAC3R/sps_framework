@@ -113,7 +113,7 @@ class Pelt:
         "BLACKNYLON", "SPIKESNYLON", "WHITENYLON", "PINKNYLON", "PURPLENYLON", "MULTINYLON", "INDIGONYLON",
     ]
 
-    tabbies = ["Tabby", "Ticked", "Mackerel", "Classic", "Sokoke", "Agouti", "Wisp"]
+    tabbies = ["Tabby", "Ticked", "Mackerel", "Classic", "Sokoke", "Agouti"]
     spotted = ["Speckled", "Rosette"]
     plain = [None]
     exotic = ["Bengal", "Marbled", "Masked"]
@@ -482,7 +482,7 @@ class Pelt:
         self.tint_color = random.choices(list(par_peltcolors), k=1)[0]
         self.tint_shade = random.choices(Pelt.marking_shade_categories, weights=weights, k=1)[0]
         
-        chosen_pelt = self.tint_color
+        chosen_pelt = self.tint_color.lstrip("_")
 
         # ------------------------------------------------------------------------------------------------------------#
         #   MARKINGS
@@ -622,12 +622,7 @@ class Pelt:
         chosen_white = random.randint(1, 100) <= chance
 
         # Adjustments to pelt chosen based on if the pelt has white in it or not.
-        if chosen_pelt in ["TwoColour", "SingleColour"]:
-            if chosen_white:
-                chosen_pelt = "TwoColour"
-            else:
-                chosen_pelt = "SingleColour"
-        elif chosen_pelt == "Calico":
+        if chosen_pelt == "Calico":
             if not chosen_white:
                 chosen_pelt = "Tortie"
 
@@ -686,7 +681,7 @@ class Pelt:
         else:
             torbie = random.getrandbits(tortie_chance_m) == 1
 
-        chosen_pelt = self.tint_color.replace('real_', '')
+        chosen_pelt = self.tint_color.lstrip("_")
         chosen_tortie_base = None
         if torbie:
             # If it is tortie, the chosen pelt above becomes the base pelt.
