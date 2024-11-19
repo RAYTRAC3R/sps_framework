@@ -35,6 +35,12 @@ class Sprites():
                 self.white_patches_tints = ujson.loads(read_file.read())
         except:
             print("ERROR: Reading White Patches Tints")
+            
+        try:
+            with open("sprites/dicts/marking_tint.json", 'r') as read_file:
+                self.markings_tints = ujson.loads(read_file.read())
+        except:
+            print("ERROR: Reading Marking Tints")
 
         try:
             with open("sprites/dicts/marking_tint.json", 'r') as read_file:
@@ -124,116 +130,115 @@ class Sprites():
         else:
             self.size = 50 # default, what base clangen uses
             print(f"lineart.png is not 3x7, falling back to {self.size}")
-            print(f"if you are a modder, please update scripts/cat/sprites.py and do a search for 'if width / 3 == height / 7:'")
+            print(f"if you are a modder, please update scripts/cat/sprites.py and "
+                  f"do a search for 'if width / 3 == height / 7:'")
 
-        del width, height # unneeded
+        del width, height  # unneeded
 
-        for x in [
-            'lineart', 'base', 'overlays/underfur', 'overlays/overfur', 'markings/markings', 'eyes/eyes',
-            'whitepatches', 'skin', 'scars', 'missingscars',
-            'accessories/accessories', 'accessories/patterns', 'accessories/herbaccessories', 'accessories/wildaccessories',
-            'shadersnewwhite', 'lineartdead', 'tortiepatchesmasks', 
-            'medcatherbs', 'lineartdf', 'lightingnew', 'fademask',
-            'fadestarclan', 'fadedarkforest'
+        # load sprite sheets for all folders
+        for f in game.sprite_folders:
+            for x in [
+                'lineart', 'base', 'overlays/underfur', 'overlays/overfur', 'markings/markings', 'eyes/eyes',
+                'whitepatches', 'skin', 'scars', 'missingscars',
+                'accessories/accessories', 'accessories/patterns', 'accessories/herbaccessories', 'accessories/wildaccessories',
+                'shadersnewwhite', 'lineartdead', 'tortiepatchesmasks', 
+                'medcatherbs', 'lineartdf', 'lightingnew', 'fademask',
+                'fadestarclan', 'fadedarkforest',
+                'symbols'
+            ]:
+                if 'lineart' in x and game.config['fun']['april_fools']:
+                    self.spritesheet(f"sprites/{f}/aprilfools{x}.png", x)
+                elif 'symbols' in x:
+                    self.spritesheet(f"sprites/{x}.png", x)
+                else:
+                    self.spritesheet(f"sprites/{f}/{x}.png", x)
 
-        ]:
-            if 'lineart' in x and game.config['fun']['april_fools']:
-                self.spritesheet(f"sprites/aprilfools{x}.png", x)
-            else:
-                self.spritesheet(f"sprites/{x}.png", x)
+            # Line art
+            self.make_group('lineart', (0, 0), f'lines{f}_')
+            self.make_group('shadersnewwhite', (0, 0), f'shaders{f}_')
+            self.make_group('lightingnew', (0, 0), f'lighting{f}_')
 
-        # Line art
-        self.make_group('lineart', (0, 0), 'lines')
-        self.make_group('shadersnewwhite', (0, 0), 'shaders')
-        self.make_group('lightingnew', (0, 0), 'lighting')
+            self.make_group('lineartdead', (0, 0), f'lineartdead{f}_')
+            self.make_group('lineartdf', (0, 0), f'lineartdf{f}_')
+            
+            # Base Color
+            self.make_group('base', (0, 0), f'base{f}_')
+            # Markings
+            for a, i in enumerate(['Tabby', 'Masked', 'Mackerel', 'Agouti', 'Speckled', 'Classic', 'Wisp', 'Sokoke', 'Singlestripe', 'Ticked', 'Marbled', 'Bengal', 'Smoke', 'Rosette']):
+                self.make_group('markings/markings', (a, 0), f'mark{f}_{i}')
+            # Overlays
+            for a, i in enumerate(['strong', 'medium', 'bubble', 'ash']):
+                self.make_group('overlays/underfur', (a, 0), f'underfur{f}_{i}')
+            for a, i in enumerate(['strong', 'medium', 'smoke', 'bubble', 'overcast', 'ash']):
+                self.make_group('overlays/overfur', (a, 0), f'overfur{f}_{i}')
 
-        self.make_group('lineartdead', (0, 0), 'lineartdead')
-        self.make_group('lineartdf', (0, 0), 'lineartdf')
+            # Fading Fog
+            for i in range(0, 3):
+                self.make_group('fademask', (i, 0), f'fademask{f}_{i}')
+                self.make_group('fadestarclan', (i, 0), f'fadestarclan{f}_{i}')
+                self.make_group('fadedarkforest', (i, 0), f'fadedf{f}_{i}')
 
-        # Base Color
-        self.make_group('base', (0, 0), 'base')
-
-        # Markings
-        for a, i in enumerate(['Tabby', 'Masked', 'Mackerel', 'Agouti', 'Speckled', 'Classic', 'Wisp', 'Sokoke', 'Singlestripe', 'Ticked', 'Marbled', 'Bengal', 'Smoke', 'Rosette']):
-            self.make_group('markings/markings', (a, 0), f'mark{i}')
-
-        # Eyes
-        for a, i in enumerate(['base', 'shade', 'pupil']):
+            for a, i in enumerate(['base', 'shade', 'pupil']):
             self.make_group('eyes/eyes', (a, 0), f'eyes{i}')
         for a, i in enumerate(['base', 'shade', 'pupil']):
             self.make_group('eyes/eyes', (a, 1), f'eyes2{i}')
-        
-        # Overlays
-        for a, i in enumerate(['strong', 'medium', 'bubble', 'ash']):
-            self.make_group('overlays/underfur', (a, 0), f'underfur{i}')
-        for a, i in enumerate(['strong', 'medium', 'smoke', 'bubble', 'overcast', 'ash']):
-            self.make_group('overlays/overfur', (a, 0), f'overfur{i}')
 
-        # Fading Fog
-        for i in range(0, 3):
-            self.make_group('fademask', (i, 0), f'fademask{i}')
-            self.make_group('fadestarclan', (i, 0), f'fadestarclan{i}')
-            self.make_group('fadedarkforest', (i, 0), f'fadedf{i}')
+            # Define white patches
+            white_patches = [
+                ['FULLWHITE', 'ANY', 'TUXEDO', 'LITTLE', 'COLOURPOINT', 'VAN', 'ANYTWO', 'MOON', 'PHANTOM', 'POWDER',
+                 'BLEACHED', 'SAVANNAH', 'FADESPOTS', 'PEBBLESHINE'],
+                ['EXTRA', 'ONEEAR', 'BROKEN', 'LIGHTTUXEDO', 'BUZZARDFANG', 'RAGDOLL', 'LIGHTSONG', 'VITILIGO', 'BLACKSTAR',
+                 'PIEBALD', 'CURVED', 'PETAL', 'SHIBAINU', 'OWL'],
+                ['TIP', 'FANCY', 'FRECKLES', 'RINGTAIL', 'HALFFACE', 'PANTSTWO', 'GOATEE', 'VITILIGOTWO', 'PAWS', 'MITAINE',
+                 'BROKENBLAZE', 'SCOURGE', 'DIVA', 'BEARD'],
+                ['TAIL', 'BLAZE', 'PRINCE', 'BIB', 'VEE', 'UNDERS', 'HONEY', 'FAROFA', 'DAMIEN', 'MISTER', 'BELLY',
+                 'TAILTIP', 'TOES', 'TOPCOVER'],
+                ['APRON', 'CAPSADDLE', 'MASKMANTLE', 'SQUEAKS', 'STAR', 'TOESTAIL', 'RAVENPAW', 'PANTS', 'REVERSEPANTS',
+                 'SKUNK', 'KARPATI', 'HALFWHITE', 'APPALOOSA', 'DAPPLEPAW'],
+                ['HEART', 'LILTWO', 'GLASS', 'MOORISH', 'SEPIAPOINT', 'MINKPOINT', 'SEALPOINT', 'MAO', 'LUNA', 'CHESTSPECK',
+                 'WINGS', 'PAINTED', 'HEARTTWO', 'WOODPECKER'],
+                ['BOOTS', 'MISS', 'COW', 'COWTWO', 'BUB', 'BOWTIE', 'MUSTACHE', 'REVERSEHEART', 'SPARROW', 'VEST',
+                 'LOVEBUG', 'TRIXIE', 'SAMMY', 'SPARKLE'],
+                ['RIGHTEAR', 'LEFTEAR', 'ESTRELLA', 'SHOOTINGSTAR', 'EYESPOT', 'REVERSEEYE', 'FADEBELLY', 'FRONT',
+                 'BLOSSOMSTEP', 'PEBBLE', 'TAILTWO', 'BUDDY', 'BACKSPOT', 'EYEBAGS'],
+                ['BULLSEYE', 'FINN', 'DIGIT', 'KROPKA', 'FCTWO', 'FCONE', 'MIA', 'SCAR', 'BUSTER', 'SMOKEY', 'HAWKBLAZE',
+                 'CAKE', 'ROSINA', 'PRINCESS'],
+                ['LOCKET', 'BLAZEMASK', 'TEARS', 'DOUGIE']
+            ]
 
-        # white patches
-        for a, i in enumerate(['FULLWHITE', 'ANY', 'TUXEDO', 'LITTLE', 'COLOURPOINT', 'VAN', 'ANYTWO',
-            'MOON', 'PHANTOM', 'POWDER', 'BLEACHED', 'SAVANNAH', 'FADESPOTS', 'PEBBLESHINE']):
-            self.make_group('whitepatches', (a, 0), f'white{i}')
-        for a, i in enumerate(['EXTRA', 'ONEEAR', 'BROKEN', 'LIGHTTUXEDO', 'BUZZARDFANG', 'RAGDOLL', 
-            'LIGHTSONG', 'VITILIGO', 'BLACKSTAR', 'PIEBALD', 'CURVED', 'PETAL', 'SHIBAINU', 'OWL']):
-            self.make_group('whitepatches', (a, 1), f'white{i}')
-        # ryos white patches
-        for a, i in enumerate(['TIP', 'FANCY', 'FRECKLES', 'RINGTAIL', 'HALFFACE', 'PANTSTWO', 'GOATEE', 'VITILIGOTWO',
-            'PAWS', 'MITAINE', 'BROKENBLAZE', 'SCOURGE', 'DIVA', 'BEARD']):
-            self.make_group('whitepatches', (a, 2), f'white{i}')
-        for a, i in enumerate(['TAIL', 'BLAZE', 'PRINCE', 'BIB', 'VEE', 'UNDERS', 'HONEY',
-            'FAROFA', 'DAMIEN', 'MISTER', 'BELLY', 'TAILTIP', 'TOES', 'TOPCOVER']):
-            self.make_group('whitepatches', (a, 3), f'white{i}')
-        for a, i in enumerate(
-                ['APRON', 'CAPSADDLE', 'MASKMANTLE', 'SQUEAKS', 'STAR', 'TOESTAIL', 'RAVENPAW',
-                'PANTS', 'REVERSEPANTS', 'SKUNK', 'KARPATI', 'HALFWHITE', 'APPALOOSA', 'DAPPLEPAW']):
-            self.make_group('whitepatches', (a, 4), f'white{i}')
-        # beejeans white patches + perrio's point marks, painted, and heart2 + anju's new marks + key's blackstar
-        for a, i in enumerate(['HEART', 'LILTWO', 'GLASS', 'MOORISH', 'SEPIAPOINT', 'MINKPOINT', 'SEALPOINT',
-            'MAO', 'LUNA', 'CHESTSPECK', 'WINGS', 'PAINTED', 'HEARTTWO', 'WOODPECKER']):
-            self.make_group('whitepatches', (a, 5), f'white{i}')
-        # acorn's white patches + ryos' bub + fable lovebug + frankie trixie
-        for a, i in enumerate(['BOOTS', 'MISS', 'COW', 'COWTWO', 'BUB', 'BOWTIE', 'MUSTACHE', 'REVERSEHEART',
-            'SPARROW', 'VEST', 'LOVEBUG', 'TRIXIE', 'SAMMY', 'SPARKLE']):
-            self.make_group('whitepatches', (a, 6), f'white{i}')
-        # acorn's white patches: the sequel
-        for a, i in enumerate(['RIGHTEAR', 'LEFTEAR', 'ESTRELLA', 'SHOOTINGSTAR', 'EYESPOT', 'REVERSEEYE',
-            'FADEBELLY', 'FRONT', 'BLOSSOMSTEP', 'PEBBLE', 'TAILTWO', 'BUDDY', 'BACKSPOT', 'EYEBAGS']):
-            self.make_group('whitepatches', (a, 7), f'white{i}')
-        for a, i in enumerate(['BULLSEYE', 'FINN', 'DIGIT', 'KROPKA', 'FCTWO', 'FCONE', 'MIA', 'SCAR',
-            'BUSTER', 'SMOKEY', 'HAWKBLAZE', 'CAKE', 'ROSINA', 'PRINCESS']):
-            self.make_group('whitepatches', (a, 8), f'white{i}')
-        for a, i in enumerate(['LOCKET', 'BLAZEMASK', 'TEARS', 'DOUGIE']):
-            self.make_group('whitepatches', (a, 9), 'white' + i)
-            
-        # new new torties
-        for a, i in enumerate(['ONE', 'TWO', 'THREE', 'FOUR', 'REDTAIL', 'DELILAH', 'HALF', 'STREAK', 'MASK', 'SMOKE']):
-            self.make_group('tortiepatchesmasks', (a, 0), f"tortiemask{i}")
-        for a, i in enumerate(['MINIMALONE', 'MINIMALTWO', 'MINIMALTHREE', 'MINIMALFOUR', 'OREO', 'SWOOP', 'CHIMERA', 'CHEST', 'ARMTAIL', 'GRUMPYFACE']):
-            self.make_group('tortiepatchesmasks', (a, 1), f"tortiemask{i}")
-        for a, i in enumerate(['MOTTLED', 'SIDEMASK', 'EYEDOT', 'BANDANA', 'PACMAN', 'STREAMSTRIKE', 'SMUDGED', 'DAUB', 'EMBER', 'BRIE']):
-            self.make_group('tortiepatchesmasks', (a, 2), f"tortiemask{i}")
-        for a, i in enumerate(['ORIOLE', 'ROBIN', 'BRINDLE', 'PAIGE', 'ROSETAIL', 'SAFI', 'DAPPLENIGHT', 'BLANKET', 'BELOVED', 'BODY']):
-            self.make_group('tortiepatchesmasks', (a, 3), f"tortiemask{i}")
-        for a, i in enumerate(['SHILOH', 'FRECKLED', 'HEARTBEAT']):
-            self.make_group('tortiepatchesmasks', (a, 4), f"tortiemask{i}")
+            for row, patches in enumerate(white_patches):
+                for col, patch in enumerate(patches):
+                    self.make_group('whitepatches', (col, row), f'white{f}_{patch}')
 
-        # SKINS
-        for a, i in enumerate(['BLACK', "RED", 'PINK', 'DARKBROWN', 'BROWN', 'LIGHTBROWN']):
-            self.make_group('skin', (a, 0), f"skin{i}")
-        for a, i in enumerate(['DARK', 'DARKGREY', 'GREY', 'DARKSALMON', 'SALMON', 'PEACH']):
-            self.make_group('skin', (a, 1), f"skin{i}")
-        for a, i in enumerate(['DARKMARBLED', 'MARBLED', 'LIGHTMARBLED', 'DARKBLUE', 'BLUE', 'LIGHTBLUE']):
-            self.make_group('skin', (a, 2), f"skin{i}")
+            # tortiepatchesmasks
+            tortiepatchesmasks = [
+                ['ONE', 'TWO', 'THREE', 'FOUR', 'REDTAIL', 'DELILAH', 'HALF', 'STREAK', 'MASK', 'SMOKE'],
+                ['MINIMALONE', 'MINIMALTWO', 'MINIMALTHREE', 'MINIMALFOUR', 'OREO', 'SWOOP', 'CHIMERA', 'CHEST', 'ARMTAIL',
+                 'GRUMPYFACE'],
+                ['MOTTLED', 'SIDEMASK', 'EYEDOT', 'BANDANA', 'PACMAN', 'STREAMSTRIKE', 'SMUDGED', 'DAUB', 'EMBER', 'BRIE'],
+                ['ORIOLE', 'ROBIN', 'BRINDLE', 'PAIGE', 'ROSETAIL', 'SAFI', 'DAPPLENIGHT', 'BLANKET', 'BELOVED', 'BODY'],
+                ['SHILOH', 'FRECKLED', 'HEARTBEAT']
+            ]
 
-        self.load_scars()
+            for row, masks in enumerate(tortiepatchesmasks):
+                for col, mask in enumerate(masks):
+                    self.make_group('tortiepatchesmasks', (col, row), f"tortiemask{f}_{mask}")
 
-    def load_scars(self):
+            # Define skin colors 
+            skin_colors = [
+                ['BLACK', 'RED', 'PINK', 'DARKBROWN', 'BROWN', 'LIGHTBROWN'],
+                ['DARK', 'DARKGREY', 'GREY', 'DARKSALMON', 'SALMON', 'PEACH'],
+                ['DARKMARBLED', 'MARBLED', 'LIGHTMARBLED', 'DARKBLUE', 'BLUE', 'LIGHTBLUE']
+            ]
+
+            for row, colors in enumerate(skin_colors):
+                for col, color in enumerate(colors):
+                    self.make_group('skin', (col, row), f"skin{f}_{color}")
+
+            self.load_scars(f)
+        self.load_symbols()
+
+    def load_scars(self, f):
         """
         Loads scar sprites and puts them into groups.
         """

@@ -178,8 +178,9 @@ class Pelt():
     black_colours = ['GREY', 'DARKGREY', 'GHOST', 'BLACK']
     white_colours = ['WHITE', 'PALEGREY', 'SILVER']
     brown_colours = ['LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN', 'CHOCOLATE']
+    
     # color_categories = [ginger_colours, black_colours, white_colours, brown_colours]
-
+  
     eye_sprites = [
         'YELLOW', 'AMBER', 'HAZEL', 'PALEGREEN', 'GREEN', 'BLUE', 'DARKBLUE', 'BLUEYELLOW', 'BLUEGREEN',
         'GREY', 'CYAN', 'EMERALD', 'PALEBLUE', 'PALEYELLOW', 'GOLD', 'HEATHERBLUE', 'COPPER', 'SAGE', 'COBALT',
@@ -365,7 +366,6 @@ class Pelt():
         new_pelt.init_eyes(parents, missing_parent)
         new_pelt.init_tint()
         new_pelt.init_pattern()
-        
         return new_pelt
     
     def check_and_convert(self, convert_dict):
@@ -886,6 +886,48 @@ class Pelt():
                 self.tortie_marking_color = random.choices(Pelt.marking_color_categories, weights=(sprites.markings_tints["tint_categories"]["color_weights"]), k=1)[0]
                 self.tortie_marking_shade = random.choices(Pelt.marking_shade_categories, weights=(sprites.markings_tints["tint_categories"]["shade_weights"]), k=1)[0]
 
+        # ------------------------------------------------------------------------------------------------------------#
+        #   MARKINGS
+        # ------------------------------------------------------------------------------------------------------------#
+        # Select blend
+        marking_blend_weights = game.config["cat_generation"]["marking_blend_weights"]
+        self.marking_blend = random.choices(Pelt.blend_modes, weights=marking_blend_weights, k=1)[0]
+        # Select overlays
+        self.overfur = random.choices(Pelt.overfur_types, weights=Pelt.overfur_weights, k=1)[0]
+        self.underfur = random.choices(Pelt.underfur_types, weights=Pelt.underfur_weights, k=1)[0]
+    
+        if game.tint_pools["use_color_pool"] == "true":
+            # Marking color
+            possible_colors = game.tint_pools["color_presets"][f"{game.tint_preset}"]["color_pools"]["marking_pool"][f"{self.tint_color}"]
+            chosen_marking_color = random.choices(possible_colors, k=1)[0]
+            weights = game.tint_pools["color_presets"][f"{game.tint_preset}"]["shade_weights"]["marking_pool"][f"{self.tint_shade}"]
+            chosen_marking_shade = random.choices(Pelt.shade_categories, weights=weights, k=1)[0]
+            # Tortie marking is picked in the pattern init
+        else:
+            weights = [0, 0, 0]
+            for p_ in par_markshades:
+                if p_ is "dark":
+                    add_weight = (40, 10, 0)
+                if p_ is "medium":
+                    add_weight = (40, 10, 0)
+                if p_ is "light":
+                    add_weight = (0, 10, 40)
+                elif p_ is None:
+                    add_weight = (40, 40, 40)
+                else:
+                    add_weight = (0, 0, 0)
+            for x in range(0, len(weights)):
+                weights[x] += add_weight[x]
+            # A quick check to make sure all the weights aren't 0
+            if all([x == 0 for x in weights]):
+                weights = [1, 1, 1]
+            # Marking color
+            chosen_marking_color = random.choices(Pelt.marking_color_categories, weights=(sprites.markings_tints["tint_categories"]["color_weights"]), k=1)[0]
+            chosen_marking_shade = random.choices(Pelt.marking_shade_categories, weights=weights, k=1)[0]
+            # Tortie marking color
+            self.tortie_marking_color = random.choices(Pelt.marking_color_categories, weights=(sprites.markings_tints["tint_categories"]["color_weights"]), k=1)[0]
+            self.tortie_marking_shade = random.choices(Pelt.marking_shade_categories, weights=(sprites.markings_tints["tint_categories"]["shade_weights"]), k=1)[0]
+            
         # Determine pelt.
         weights = [0, 0, 0, 0]  #Weights for each pelt group. It goes: (tabbies, spotted, plain, exotic)
         for p_ in par_peltmarkings:
@@ -995,7 +1037,6 @@ class Pelt():
         # ------------------------------------------------------------------------------------------------------------#
         #   PELT
         # ------------------------------------------------------------------------------------------------------------#
-
         # Select blend
         marking_blend_weights = game.config["cat_generation"]["marking_blend_weights"]
         self.marking_blend = random.choices(Pelt.blend_modes, weights=marking_blend_weights, k=1)[0]
@@ -1004,6 +1045,30 @@ class Pelt():
         chosen_marking = choice(
             random.choices(Pelt.pelt_categories, weights=Pelt.marking_weights, k=1)[0]
         )
+        # Select overlays
+        self.overfur = random.choices(Pelt.overfur_types, weights=Pelt.overfur_weights, k=1)[0]
+        self.underfur = random.choices(Pelt.underfur_types, weights=Pelt.underfur_weights, k=1)[0]
+            
+        # Base color - must be picked before other colors for the tint pool
+        self.tint_color = random.choices(Pelt.color_categories, weights=(sprites.cat_tints["tint_categories"]["color_weights"]), k=1)[0]
+
+        self.tint_shade = random.choices(Pelt.shade_categories, weights=(sprites.cat_tints["tint_categories"]["shade_weights"]), k=1)[0]
+    
+        if game.tint_pools["use_color_pool"] == "true":
+            # Marking color
+            possible_colors = game.tint_pools["color_presets"][f"{game.tint_preset}"]["color_pools"]["marking_pool"][f"{self.tint_color}"]
+            chosen_marking_color = random.choices(possible_colors, k=1)[0]
+            weights = game.tint_pools["color_presets"][f"{game.tint_preset}"]["shade_weights"]["marking_pool"][f"{self.tint_shade}"]
+            chosen_marking_shade = random.choices(Pelt.shade_categories, weights=weights, k=1)[0]
+            # Tortie marking is picked in the pattern init
+        else:
+            # Marking color
+            chosen_marking_color = random.choices(Pelt.marking_color_categories, weights=(sprites.markings_tints["tint_categories"]["color_weights"]), k=1)[0]
+            chosen_marking_shade = random.choices(Pelt.marking_shade_categories, weights=(sprites.markings_tints["tint_categories"]["shade_weights"]), k=1)[0]
+
+            # Tortie marking color
+            self.tortie_marking_color = random.choices(Pelt.marking_color_categories, weights=(sprites.markings_tints["tint_categories"]["color_weights"]), k=1)[0]
+            self.tortie_marking_shade = random.choices(Pelt.marking_shade_categories, weights=(sprites.markings_tints["tint_categories"]["shade_weights"]), k=1)[0]
 
         # Select overlays
         self.overfur = random.choices(Pelt.overfur_types, weights=Pelt.overfur_weights, k=1)[0]
@@ -1052,6 +1117,7 @@ class Pelt():
             chosen_tortie_base = chosen_tortie_base.lower()
             chosen_pelt = random.choice(Pelt.torties)
 
+
         # ------------------------------------------------------------------------------------------------------------#
         #   PELT LENGTH
         # ------------------------------------------------------------------------------------------------------------#
@@ -1070,6 +1136,7 @@ class Pelt():
         if chosen_pelt == "Calico":
             if not chosen_white:
                 chosen_pelt = "Tortie"
+
 
         self.marking = chosen_marking
         self.name = chosen_pelt
@@ -1382,6 +1449,7 @@ class Pelt():
                         self.tortie_overfur_tint = choice(color_tints)
                     else:
                         self.tortie_overfur_tint = self.tortie_marking_tint
+
 
                 else:
                     # Normal generation
@@ -1749,7 +1817,7 @@ class Pelt():
         if cat.pelt.marking not in ["SingleColour", "TwoColour", "Tortie", "Calico"] and color_name == "white":
             color_name = "pale"
 
-        # Time to descibe the pattern and any additional colors
+        # Time to describe the pattern and any additional colors
         if cat.pelt.marking in pattern_des:
             color_name = pattern_des[cat.pelt.marking].replace("c_n", color_name)
         elif cat.pelt.marking in Pelt.torties:

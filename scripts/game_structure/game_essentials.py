@@ -183,6 +183,8 @@ class Game():
     config_inheritance = False
     inheritance_type = None
     tint_preset = None
+    species_list = {}
+    sprite_folders = set()
 
     rpc = None
 
@@ -199,9 +201,11 @@ class Game():
 
         with open(f"resources/prey_config.json", 'r') as read_file:
             self.prey_config = ujson.loads(read_file.read())
-
+            
         with open(f"resources/tintconfigs/color_pools.json", 'r') as read_file:
             self.tint_pools = ujson.loads(read_file.read())
+        with open(f"resources/tintconfigs/color_inheritance.json", 'r') as read_file:
+            self.tint_inheritance = ujson.loads(read_file.read())
 
         with open(f"resources/tintconfigs/color_inheritance.json", 'r') as read_file:
             self.tint_inheritance = ujson.loads(read_file.read())
