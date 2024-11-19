@@ -2611,7 +2611,7 @@ def generate_sprite(
                 else:
                     t_markings.blit(t_mark_tint, (0, 0))
                 t_markings.blit(sprites.sprites['mark' + f'{n}_' + cat.pelt.tortiepattern + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-                t_markings.blit(sprites.sprites["tortiemask" + f'{n}_' cat.pelt.pattern + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+                t_markings.blit(sprites.sprites["tortiemask" + f'{n}_' + cat.pelt.pattern + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
                 patches.blit(t_markings, (0, 0))
 
             # Add patches onto cat.
