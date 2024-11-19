@@ -1018,9 +1018,9 @@ class Cat:
 
     def describe_eyes(self):
         """Get a human-readable description of this cat's eye colour"""
-        colour = str(self.pelt.eye_color).lower()
-        colour2 = str(self.pelt.eye2_color).lower()
-        if self.pelt.eye2_color:
+        colour = str(self.pelt.eye_s_color).lower()
+        colour2 = str(self.pelt.eye2_s_color).lower()
+        if self.pelt.eye2_s_color:
             colour = colour + " and " + colour2
         return colour
 
