@@ -819,7 +819,10 @@ class ProfileScreen(Screens):
         output += "\n"
 
         # SPECIES
-        output += str(the_cat.species)
+        if the_cat.alicorn == False:
+            output += str(the_cat.species)
+        else:
+            output += "alicorn (formerly " + str(the_cat.species) + ")"
         # NEWLINE ----------
         output += "\n"
 

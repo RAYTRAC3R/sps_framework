@@ -258,7 +258,7 @@ class ListScreen(Screens):
                 self.change_screen("patrol screen")
 
     def screen_switches(self):
-        self.clan_name = game.clan.name + "Clan"
+        self.clan_name = game.clan.name
 
         self.set_disabled_menu_buttons(["catlist_screen"])
         self.show_menu_buttons()
@@ -723,12 +723,12 @@ class ListScreen(Screens):
             self.df_bg.hide()
             self.ur_bg.hide()
             self.sc_bg.hide()
-            self.update_heading_text("Cats Outside the Clan")
+            self.update_heading_text("Ponies Outside the Town")
         elif self.current_group == "sc":
             self.df_bg.hide()
             self.ur_bg.hide()
             self.sc_bg.show()
-            self.update_heading_text("StarClan")
+            self.update_heading_text("Elysium")
         elif self.current_group == "ur":
             self.df_bg.hide()
             self.ur_bg.show()
@@ -738,7 +738,7 @@ class ListScreen(Screens):
             self.df_bg.show()
             self.ur_bg.hide()
             self.sc_bg.hide()
-            self.update_heading_text("Dark Forest")
+            self.update_heading_text("Tartarus")
 
     def get_cat_list(self):
         """

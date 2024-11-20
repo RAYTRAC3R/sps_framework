@@ -115,6 +115,7 @@ def json_load():
                 mane_style=cat["mane_style"] if "mane_style" in cat else "Test",
                 tail_style=cat["tail_style"] if "tail_style" in cat else "Test",
                 mane_color=cat["marking_tint"],
+                alicorn=cat["alicorn"] if "alicorn" in cat else False,
                 length=cat["pelt_length"],
                 paralyzed=cat["paralyzed"],
                 kitten_sprite=(

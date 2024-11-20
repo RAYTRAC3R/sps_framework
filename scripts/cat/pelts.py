@@ -267,6 +267,7 @@ class Pelt:
                  mane_style:str=None,
                  tail_style:str=None,
                  mane_color:str=None,
+                 alicorn: bool = False,
                  vitiligo: str = None,
                  points: str = None,
                  accessory_category:str=None,
@@ -335,6 +336,7 @@ class Pelt:
         self.mane_style = mane_style
         self.tail_style = tail_style
         self.mane_color = marking_tint
+        self.alicorn = alicorn
         self.vitiligo = vitiligo
         self.length = length
         self.points = points
@@ -525,19 +527,27 @@ class Pelt:
         elif self.white_patches in ['SEPIAPOINT', 'MINKPOINT', 'SEALPOINT']:
             self.white_patches_tint = "none"
 
-        if self.cat_sprites['adult'] not in [2, 5]:
-            if gender == 'female':
+        if self.cat_sprites['adult'] not in [2, 5, 7, 8]:
+            if gender == 'female' and self.alicorn == True:
+                self.cat_sprites['adult'] = 7
+            elif gender == 'male' and self.alicorn == True:
+                self.cat_sprites['adult'] = 8
+            elif gender == 'female' and self.alicorn == False:
                 self.cat_sprites['adult'] = 2
-            elif gender == 'male':
+            elif gender == 'male' and self.alicorn == False:
                 self.cat_sprites['adult'] = 5
             self.cat_sprites['young adult'] = self.cat_sprites['adult']
             self.cat_sprites['senior adult'] = self.cat_sprites['adult']
             self.cat_sprites['para_adult'] = self.cat_sprites['adult']
             
-        if self.cat_sprites['senior'] not in [6, 9]:
-            if gender == 'female':
+        if self.cat_sprites['senior'] not in [6, 9, 10, 11]:
+            if gender == 'female' and self.alicorn == True:
+                self.cat_sprites['adult'] = 10
+            elif gender == 'male' and self.alicorn == True:
+                self.cat_sprites['adult'] = 11
+            elif gender == 'female' and self.alicorn == False:
                 self.cat_sprites['adult'] = 6
-            elif gender == 'male':
+            elif gender == 'male' and self.alicorn == False:
                 self.cat_sprites['adult'] = 9
         
         if self.pattern in convert_dict["old_tortie_patches"]:
@@ -1128,19 +1138,28 @@ class Pelt:
         if gender == 'male':
             self.cat_sprites['kitten'] = 3
             self.cat_sprites['adolescent'] = 4
-            self.cat_sprites['adult'] = 5
-            self.cat_sprites['senior'] = 9
-            self.cat_sprites['para_adult'] = 5
-            self.cat_sprites['sick_adult'] = 19
+            if self.alicorn == True:
+                self.cat_sprites['adult'] = 8
+                self.cat_sprites['senior'] = 11
+                self.cat_sprites['sick_adult'] = 17
+            else:
+                self.cat_sprites['adult'] = 5
+                self.cat_sprites['senior'] = 9
+                self.cat_sprites['sick_adult'] = 19
         else:
             self.cat_sprites['kitten'] = 0
             self.cat_sprites['adolescent'] = 1
-            self.cat_sprites['adult'] = 2
-            self.cat_sprites['senior'] = 6
-            self.cat_sprites['para_adult'] = 2
-            self.cat_sprites['sick_adult'] = 18
+            if self.alicorn == True:
+                self.cat_sprites['adult'] = 7
+                self.cat_sprites['senior'] = 10
+                self.cat_sprites['sick_adult'] = 16
+            else:
+                self.cat_sprites['adult'] = 2
+                self.cat_sprites['senior'] = 6
+                self.cat_sprites['sick_adult'] = 18
         self.cat_sprites['young adult'] = self.cat_sprites['adult']
         self.cat_sprites['senior adult'] = self.cat_sprites['adult']
+        self.cat_sprites['para_adult'] = self.cat_sprites['adult']
 
     def init_scars(self, age):
         if age == "newborn":
@@ -1826,6 +1845,19 @@ class Pelt:
 
         if "white and white" in color_name:
             color_name = color_name.replace("white and white", "white")
+        
+        if cat.pelt.alicorn == True:
+            color_name = f"{color_name} alicorn"
+        else:
+            if cat.species == "earth pony":
+                if cat.genderalign in ["female", "male", "trans female", "trans male"]:
+                    color_name = f"{color_name} earth pony"
+                else:
+                    color_name = f"{color_name} earth"
+            elif cat.species == "pegasus":
+                color_name = f"{color_name} pegasus"
+            elif cat.species == "unicorn":
+                color_name = f"{color_name} unicorn"
 
         # Now it's time for gender
         if cat.genderalign in ["female", "trans female"]:

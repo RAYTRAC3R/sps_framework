@@ -3439,6 +3439,7 @@ class Cat:
                 "mane_style": self.pelt.mane_style,
                 "tail_style": self.pelt.tail_style,
                 "mane_color": self.pelt.marking_tint,
+                "alicorn": self.pelt.alicorn,
                 "sprite_kitten": self.pelt.cat_sprites["kitten"],
                 "sprite_adolescent": self.pelt.cat_sprites["adolescent"],
                 "sprite_adult": self.pelt.cat_sprites["adult"],
