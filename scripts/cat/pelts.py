@@ -79,11 +79,13 @@ class Pelt:
                       'BRIE', 'BELOVED', 'BODY', 'SHILOH', 'FRECKLED', 'HEARTBEAT']
     tortiebases = ["Gradsocks", "Gradhoof"]
     
-    manestyles = ['None', 'Test']
-    tailstyles = ['None', 'Test']
+    #manestyles = ['None', 'Test', 'Twilight', 'Bun', 'Curled', 'YoungLuna']
+    manestyles = ['None', 'Test', 'Twilight']
+    #tailstyles = ['None', 'Test', 'Twilight', 'Bun', 'Curled', 'YoungLuna']
+    tailstyles = ['None', 'Test', 'Twilight']
     
-    straightmanes = ['Test']
-    straighttails = ['Test']
+    straightmanes = ['Test', 'Twilight']
+    straighttails = ['Test', 'Twilight']
     sillymanes = ['None']
     sillytails = ['None']
 
@@ -1773,8 +1775,8 @@ class Pelt:
             }
         
         if not parents:
-            self.mane_style = choice(random.choices(Pelt.manestyles, weights=[1,5]))
-            self.tail_style = choice(random.choices(Pelt.tailstyles, weights=[1,8]))
+            self.mane_style = choice(random.choices(Pelt.manestyles, weights=[1,5,5]))
+            self.tail_style = choice(random.choices(Pelt.tailstyles, weights=[1,8,8]))
         else:
             for p in parents:
                 parentmane = choice([i.pelt.mane_style for i in parents])
@@ -1785,7 +1787,7 @@ class Pelt:
                 tail_texture = tail_texturedict[parentmane]
         
             if mane_texture == "straight":
-                self.mane_style = choice(random.choices(Pelt.straightmanes, weights=[1]))
+                self.mane_style = choice(random.choices(Pelt.straightmanes, weights=[1,1]))
             #elif texture is "wavy":
             #    self.mane_style = choice(random.choices(Pelt.wavymanes, weights=[1,1]))
             #elif texture is "curled":
@@ -1794,7 +1796,7 @@ class Pelt:
                 self.mane_style = choice(random.choices(Pelt.sillymanes, weights=[1]))
                 
             if tail_texture == "straight":
-                self.tail_style = choice(random.choices(Pelt.straighttails, weights=[1]))
+                self.tail_style = choice(random.choices(Pelt.straighttails, weights=[1,1]))
             #elif texture is "wavy":
             #    self.mane_style = choice(random.choices(Pelt.wavymanes, weights=[1,1]))
             #elif texture is "curled":
