@@ -153,6 +153,7 @@ class Sprites:
                 'scars', 'missingscars',
                 'base', 'overlays/underfur', 'overlays/overfur', 'markings/markings', 'eyes/eyes',
                 'accessories/accessories', 'accessories/patterns', 'accessories/herbaccessories', 'accessories/wildaccessories',
+                'manes/manelines', 'manes/manecolor',
                 'shadersnewwhite', 'lightingnew',
                 'whitepatches', 'tortiepatchesmasks',
                 'fademask', 'fadestarclan', 'fadedarkforest',
@@ -178,6 +179,13 @@ class Sprites:
             # Markings
             for a, i in enumerate(['Gradsocks', 'Gradhoof']):
                 self.make_group('markings/markings', (a, 0), f'mark{f}_{i}')
+                
+            for a, i in enumerate(['None', 'Test']):
+                self.make_group('manes/manelines', (a, 0), f'manelines{f}_{i}')
+            
+            for a, i in enumerate(['None', 'Test']):
+                self.make_group('manes/manecolor', (a, 0), f'manecolor{f}_{i}')
+            
             # Eyes
             for a, i in enumerate(['base', 'shade', 'pupil']):
                 self.make_group('eyes/eyes', (a, 0), f'eyes{i}')

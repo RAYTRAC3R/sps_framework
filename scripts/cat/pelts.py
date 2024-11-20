@@ -78,6 +78,8 @@ class Pelt:
                       'CHEST', 'ARMTAIL', 'SMOKE', 'GRUMPYFACE',
                       'BRIE', 'BELOVED', 'BODY', 'SHILOH', 'FRECKLED', 'HEARTBEAT']
     tortiebases = ["Gradsocks", "Gradhoof"]
+    
+    manestyles = ['None', 'Test']
 
     pelt_length = ["short", "medium", "long"]
     eye_colours = ['YELLOW', 'AMBER', 'HAZEL', 'PALEGREEN', 'GREEN', 'BLUE', 'DARKBLUE', 'GREY', 'CYAN', 'EMERALD',
@@ -261,6 +263,8 @@ class Pelt:
                  tortie_marking_tint:str=None,
                  tortie_underfur_tint:str=None,
                  tortie_overfur_tint:str=None,
+                 mane_style:str=None,
+                 mane_color:str=None,
                  vitiligo: str = None,
                  points: str = None,
                  accessory_category:str=None,
@@ -326,6 +330,8 @@ class Pelt:
         self.tortie_marking_tint = tortie_marking_tint
         self.tortie_underfur_tint = tortie_underfur_tint
         self.tortie_overfur_tint = tortie_overfur_tint
+        self.mane_style = mane_style
+        self.mane_color = marking_tint
         self.vitiligo = vitiligo
         self.length = length
         self.points = points
@@ -372,6 +378,7 @@ class Pelt:
         new_pelt.init_eyes(parents, missing_parent)
         new_pelt.init_tint()
         new_pelt.init_pattern()
+        new_pelt.init_mane()
 
         return new_pelt
 
@@ -1635,8 +1642,11 @@ class Pelt:
             self.tortie_marking_tint = choice(color_tints)
 
         # Eye tints
-        color_tints = sprites.eye_tints["possible_tints"][f"{self.eye_color}_{self.eye_shade}"]
-        self.eye_tint = choice(color_tints)
+        
+        #note to self: make non-white sclera possible in certain scenarios later
+        #color_tints = sprites.eye_tints["possible_tints"][f"{self.eye_color}_{self.eye_shade}"]
+        #self.eye_tint = choice(color_tints)
+        self.eye_tint = "white"
 
         color_tints = sprites.eye_tints["possible_tints"][f"{self.eye_s_color}_{self.eye_s_shade}"]
         self.eye_s_tint = choice(color_tints)
@@ -1690,6 +1700,10 @@ class Pelt:
                 self.white_patches_tint = "none" """
         else:
             self.white_patches_tint = "none"
+
+    def init_mane(self):
+        self.mane_style = random.choice(Pelt.manestyles)
+        self.mane_color = self.marking_tint
 
     @property
     def white(self):
