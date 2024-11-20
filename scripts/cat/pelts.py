@@ -1702,7 +1702,7 @@ class Pelt:
             self.white_patches_tint = "none"
 
     def init_mane(self):
-        self.mane_style = random.choice(Pelt.manestyles)
+        self.mane_style = choice(random.choices(Pelt.manestyles, weights=[1,3]))
         self.mane_color = self.marking_tint
 
     @property
