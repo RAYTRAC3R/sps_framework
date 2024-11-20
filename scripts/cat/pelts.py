@@ -267,6 +267,7 @@ class Pelt:
                  mane_style:str=None,
                  tail_style:str=None,
                  mane_color:str=None,
+                 mane_color2:str=None,
                  alicorn: bool = False,
                  vitiligo: str = None,
                  points: str = None,
@@ -336,6 +337,7 @@ class Pelt:
         self.mane_style = mane_style
         self.tail_style = tail_style
         self.mane_color = mane_color
+        self.mane_color2 = mane_color2
         self.alicorn = alicorn
         self.vitiligo = vitiligo
         self.length = length
@@ -1094,7 +1096,7 @@ class Pelt:
         #   PELT WHITE
         # ------------------------------------------------------------------------------------------------------------#
 
-        chosen_white = random.randint(1, 100) <= 40
+        chosen_white = random.randint(1, 100) <= 25
 
         # Adjustments to pelt chosen based on if the pelt has white in it or not.
         if chosen_pelt == "Calico":
@@ -1730,7 +1732,10 @@ class Pelt:
         color_tints.append(self.underfur_tint)
         color_tints.append(self.eye_s_tint)
         self.mane_color = choice(color_tints)
-        print(color_tints)
+        twotone = random.randint(0, 1)
+        if twotone == 1:
+            self.mane_color2 = choice(color_tints)
+        #print(color_tints)
 
     def init_mane(self):
         self.mane_style = choice(random.choices(Pelt.manestyles, weights=[1,5]))

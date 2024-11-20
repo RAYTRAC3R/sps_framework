@@ -153,7 +153,7 @@ class Sprites:
                 'scars', 'missingscars',
                 'base', 'overlays/underfur', 'overlays/overfur', 'markings/markings', 'eyes/eyes',
                 'accessories/accessories', 'accessories/patterns', 'accessories/herbaccessories', 'accessories/wildaccessories',
-                'manes/manelines', 'manes/manecolor', 'tails/taillines', 'tails/tailcolor',
+                'manes/manelines', 'manes/manecolor', 'manes/manecolor2', 'tails/taillines', 'tails/tailcolor', 'tails/tailcolor2',
                 'shadersnewwhite', 'lightingnew',
                 'whitepatches', 'tortiepatchesmasks',
                 'fademask', 'fadestarclan', 'fadedarkforest',
@@ -180,17 +180,26 @@ class Sprites:
             for a, i in enumerate(['Gradsocks', 'Gradhoof']):
                 self.make_group('markings/markings', (a, 0), f'mark{f}_{i}')
                 
-            for a, i in enumerate(['None', 'Test']):
-                self.make_group('manes/manelines', (a, 0), f'manelines{f}_{i}')
+            manes = ['None', 'Test']
+            tails = ['None', 'Test']
             
-            for a, i in enumerate(['None', 'Test']):
+            for a, i in enumerate(manes):
                 self.make_group('manes/manecolor', (a, 0), f'manecolor{f}_{i}')
                 
-            for a, i in enumerate(['None', 'Test']):
-                self.make_group('tails/taillines', (a, 0), f'taillines{f}_{i}')
-            
-            for a, i in enumerate(['None', 'Test']):
+            for a, i in enumerate(manes):
+                self.make_group('manes/manecolor2', (a, 0), f'manecolor2{f}_{i}')
+                
+            for a, i in enumerate(manes):
+                self.make_group('manes/manelines', (a, 0), f'manelines{f}_{i}')
+                
+            for a, i in enumerate(tails):
                 self.make_group('tails/tailcolor', (a, 0), f'tailcolor{f}_{i}')
+                
+            for a, i in enumerate(tails):
+                self.make_group('tails/tailcolor2', (a, 0), f'tailcolor2{f}_{i}')
+                
+            for a, i in enumerate(tails):
+                self.make_group('tails/taillines', (a, 0), f'taillines{f}_{i}')
             
             # Eyes
             for a, i in enumerate(['base', 'shade', 'pupil']):

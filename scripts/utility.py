@@ -2814,6 +2814,14 @@ def generate_sprite(
             tail = sprites.sprites['tailcolor' + f'{n}_' + cat.pelt.tail_style + cat_sprite].copy()
             tail.blit(tail_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
             tail.blit(sprites.sprites['taillines' + f'{n}_' + cat.pelt.tail_style + cat_sprite], (0, 0))
+            
+            if cat.pelt.mane_color2:
+                tail_streak = sprites.sprites['tailcolor2' + f'{n}_' + cat.pelt.tail_style + cat_sprite].copy()
+                tail_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+                tail_tint.fill(tuple(sprites.markings_tints["tint_colours"][cat.pelt.mane_color2]))
+                tail_streak.blit(tail_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+                tail.blit(tail_streak, (0, 0))
+            
             new_sprite.blit(tail, (0, 0))
                     
         if cat.pelt.mane_style:
@@ -2823,6 +2831,14 @@ def generate_sprite(
             
             mane = sprites.sprites['manecolor' + f'{n}_' + cat.pelt.mane_style + cat_sprite].copy()
             mane.blit(mane_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+            
+            if cat.pelt.mane_color2:
+                mane_streak = sprites.sprites['manecolor2' + f'{n}_' + cat.pelt.mane_style + cat_sprite].copy()
+                mane_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+                mane_tint.fill(tuple(sprites.markings_tints["tint_colours"][cat.pelt.mane_color2]))
+                mane_streak.blit(mane_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+                mane.blit(mane_streak, (0, 0))
+            
             mane.blit(sprites.sprites['manelines' + f'{n}_' + cat.pelt.mane_style + cat_sprite], (0, 0))
             new_sprite.blit(mane, (0, 0))
             
