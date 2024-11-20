@@ -770,9 +770,9 @@ class Pelt:
             par_markcolors.add(str(missing_parent["marking_color"]))
             par_markshades.add(str(missing_parent["marking_shade"]))
             
-            par_manecolors.add(str(missing_parent["mane_color"]))
-            if missing_parent["mane_color2"] is not None:
-                par_manecolors.add(str(missing_parent["mane_color2"]))
+            #par_manecolors.add(str(missing_parent["mane_color"]))
+            #if missing_parent["mane_color2"] is not None:
+            #    par_manecolors.add(str(missing_parent["mane_color2"]))
             
             # Gather if they have white in their pelt.
             par_white.append(str(missing_parent["white"]))
@@ -1778,13 +1778,13 @@ class Pelt:
         else:
             for p in parents:
                 parentmane = choice([i.pelt.mane_style for i in parents])
-                print(parentmane)
+                #print(parentmane)
                 mane_texture = mane_texturedict[parentmane]
                 parenttail = choice([i.pelt.tail_style for i in parents])
-                print(parenttail)
+                #print(parenttail)
                 tail_texture = tail_texturedict[parentmane]
         
-            if mane_texture is "straight":
+            if mane_texture == "straight":
                 self.mane_style = choice(random.choices(Pelt.straightmanes, weights=[1]))
             #elif texture is "wavy":
             #    self.mane_style = choice(random.choices(Pelt.wavymanes, weights=[1,1]))
@@ -1793,7 +1793,7 @@ class Pelt:
             else:
                 self.mane_style = choice(random.choices(Pelt.sillymanes, weights=[1]))
                 
-            if tail_texture is "straight":
+            if tail_texture == "straight":
                 self.tail_style = choice(random.choices(Pelt.straighttails, weights=[1]))
             #elif texture is "wavy":
             #    self.mane_style = choice(random.choices(Pelt.wavymanes, weights=[1,1]))
