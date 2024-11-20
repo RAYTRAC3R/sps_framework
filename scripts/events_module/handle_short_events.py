@@ -320,12 +320,14 @@ class HandleShortEvents:
 
         if hasattr(self.main_cat.pelt, "scars"):
             if "NOTAIL" in self.main_cat.pelt.scars or "HALFTAIL" in self.main_cat.pelt.scars:
-                for acc in pelts.tail_accessories:
-                    if acc in acc_list:
+                for acc in Pelt.tail_accessories:
+                    try:
                         acc_list.remove(acc)
+                    except ValueError:
+                        print(f'attempted to remove {acc} from possible acc list, but it was not in the list!')
 
         if acc_list:
-            Pelt.create_accessory(cat.pelt, acc_list)
+            Pelt.create_accessory(self.main_cat.pelt, acc_list)
 
     def handle_death(self):
         """
