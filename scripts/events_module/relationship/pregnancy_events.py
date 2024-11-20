@@ -9,6 +9,7 @@ from scripts.cat.names import names, Name
 from scripts.cat_relations.relationship import Relationship
 from scripts.event_class import Single_Event
 from scripts.events_module.condition_events import Condition_Events
+from scripts.cat.pelts import Pelt
 from scripts.game_structure.game_essentials import game
 from scripts.utility import (
     create_new_cat,
@@ -749,6 +750,8 @@ class Pregnancy_Events:
             other_cat = None
 
         blood_parent = None
+        blood_parent2 = None
+        blood_parent_missing = None
         par2species = None
 
         ##### SELECT BACKSTORY #####
@@ -820,10 +823,17 @@ class Pregnancy_Events:
                                                   age=randint(15, 120),
                                                   species=par2species,
                                                   outside=True)[0]
+                    blood_parent2 = create_new_cat(Cat, Relationship,
+                                                status=random.choice(["loner", "kittypet"]),
+                                                alive=False,
+                                                thought=thought,
+                                                age=randint(15,120),
+                                                outside=True)[0]
                     blood_parent.thought = thought
+                    blood_parent2.thought = thought
 
                 kit = Cat(
-                    parent1=blood_parent.ID,
+                    parent1=blood_parent.ID, parent2=blood_parent2.ID,
                     par2species=par2species,
                     moons=0,
                     backstory=backstory,
@@ -838,8 +848,31 @@ class Pregnancy_Events:
                 kit.thought = f"Snuggles up to the belly of {cat.name}"
             else:
                 # A one blood parent litter is the only option left.
+                # create missing 
+                bp_sel = [
+                    random.choices(Pelt.color_categories, weights=Pelt.color_weights, k=1)[0], 
+                    random.choices(Pelt.shade_categories, weights=Pelt.shade_weights, k=1)[0], 
+                    random.choices(Pelt.marking_color_categories, weights=Pelt.m_color_weights, k=1)[0], 
+                    random.choices(Pelt.marking_shade_categories, weights=Pelt.m_shade_weights, k=1)[0], 
+                    random.choices(Pelt.eye_color_categories, weights=Pelt.e_color_weights, k=1)[0], 
+                    random.choices(Pelt.eye_color_categories, weights=Pelt.e_color_weights, k=1)[0],
+                    random.choices(Pelt.eye_color_categories, weights=Pelt.e_color_weights, k=1)[0],
+                    random.choices(Pelt.pelt_categories, weights=Pelt.marking_weights, k=1)[0], 
+                    random.choices(Pelt.pelt_length, k=1)[0], 
+                    ]
+                blood_parent_missing = dict({
+                    "tint_color": bp_sel[0], 
+                    "tint_shade": bp_sel[1], 
+                    "marking_color": bp_sel[2], 
+                    "marking_shade": bp_sel[3], 
+                    "eye_color": bp_sel[4], 
+                    "eye_s_color": bp_sel[5], 
+                    "eye_p_color": bp_sel[6],
+                    "marking": bp_sel[7],
+                    "length": bp_sel[8],
+                    "white": bool(random.getrandbits(1))})
                 kit = Cat(
-                    parent1=cat.ID, par2species=par2species, moons=0, backstory=backstory, status="newborn"
+                    parent1=cat.ID, par2species=par2species, moons=0, backstory=backstory, status="newborn", missing_parent=dict(blood_parent_missing)
                 )
                 kit.thought = f"Snuggles up to the belly of {cat.name}"
 
