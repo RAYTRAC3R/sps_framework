@@ -718,7 +718,7 @@ class ListScreen(Screens):
             self.df_bg.hide()
             self.ur_bg.hide()
             self.sc_bg.hide()
-            self.update_heading_text(self.clan_name)
+            self.update_heading_text("The Settlement of " + self.clan_name)
         elif self.current_group == "cotc":
             self.df_bg.hide()
             self.ur_bg.hide()
