@@ -2178,11 +2178,11 @@ def event_text_adjust(
 
     # acc_plural (only works for main_cat's acc)
     if "acc_plural" in text:
-        text = text.replace("acc_plural", str(ACC_DISPLAY[cat.pelt.accessory_type]["plural"]))
+        text = text.replace("acc_plural", str(ACC_DISPLAY[main_cat.pelt.accessory_type]["plural"]))
 
     # acc_singular (only works for main_cat's acc)
     if "acc_singular" in text:
-        text = text.replace("acc_singular", str(ACC_DISPLAY[cat.pelt.accessory_type]["singular"]))
+        text = text.replace("acc_singular", str(ACC_DISPLAY[main_cat.pelt.accessory_type]["singular"]))
 
     if "given_herb" in text:
         if "_" in chosen_herb:
