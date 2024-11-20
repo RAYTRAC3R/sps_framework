@@ -338,9 +338,7 @@ class SpriteInspectScreen(Screens):
         )
 
         # "Show accessories"
-        self.make_one_checkbox(
-            (1000, 1150), "acc_shown", self.acc_shown, self.the_cat.pelt.accessory
-        )
+        self.make_one_checkbox((1000, 1150), "acc_shown", self.acc_shown, self.the_cat.pelt.accessory_type)
 
         # "Show as living"
         self.make_one_checkbox(

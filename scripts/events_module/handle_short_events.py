@@ -310,9 +310,9 @@ class HandleShortEvents:
         if "WILD" in possible_accs:
             acc_list.extend(pelts.wild_accessories)
         if "PLANT" in possible_accs:
-            acc_list.extend(pelts.plant_accessories)
+            acc_list.extend(pelts.herb_accessories)
         if "COLLAR" in possible_accs:
-            acc_list.extend(pelts.collars)
+            acc_list.extend(pelts.twoleg_accessories)
 
         for acc in possible_accs:
             if acc not in ["WILD", "PLANT", "COLLAR"]:
@@ -325,7 +325,7 @@ class HandleShortEvents:
                         acc_list.remove(acc)
 
         if acc_list:
-            self.main_cat.pelt.accessory = random.choice(acc_list)
+            Pelt.create_accessory(cat.pelt, acc_list)
 
     def handle_death(self):
         """

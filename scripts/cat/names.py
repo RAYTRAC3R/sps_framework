@@ -180,6 +180,11 @@ class Name:
                     self.suffix = random.choice(self.names_dict["normal_suffixes"])
             else:
                 self.suffix = random.choice(self.names_dict["normal_suffixes"])
+        suffixspacing = random.randint(1, 5)
+        if suffixspacing == 1:
+            self.suffix = self.suffix
+        else:
+            self.suffix = " " + self.suffix.capitalize()
 
     def __repr__(self):
         # Handles predefined suffixes (such as newborns being kit),

@@ -52,6 +52,13 @@ class Sprites:
                 self.eye_tints = ujson.loads(read_file.read())
         except:
             print("ERROR: Reading Eye Tints")
+            
+        try:
+            with open("sprites/dicts/accessories_tint.json", 'r') as read_file:
+                self.accessory_tints = ujson.loads(read_file.read())
+        except:
+            print("ERROR: Reading Accessory Tints")
+            
         self.eye_random = self.eye_tints["enable_random"]
 
     def spritesheet(self, a_file, name):
@@ -144,9 +151,8 @@ class Sprites:
                 'lineart', 'lineartdf', 'lineartdead',
                 'eyes', 'eyes2', 'skin',
                 'scars', 'missingscars',
-                'medcatherbs',
-                'collars', 'bellcollars', 'bowcollars', 'nyloncollars',
                 'base', 'overlays/underfur', 'overlays/overfur', 'markings/markings', 'eyes/eyes',
+                'accessories/accessories', 'accessories/patterns', 'accessories/herbaccessories', 'accessories/wildaccessories',
                 'shadersnewwhite', 'lightingnew',
                 'whitepatches', 'tortiepatchesmasks',
                 'fademask', 'fadestarclan', 'fadedarkforest',
@@ -257,72 +263,63 @@ class Sprites:
             for col, missing_part in enumerate(missing_parts):
                 self.make_group('missingscars', (col, row), f'scars{f}_{missing_part}')
 
-        # accessories
-        medcatherbs_data = [
-            ["MAPLE LEAF", "HOLLY", "BLUE BERRIES", "FORGET ME NOTS", "RYE STALK", "LAUREL"],
-            ["BLUEBELLS", "NETTLE", "POPPY", "LAVENDER", "HERBS", "PETALS"],
-            [],  # Empty row because this is the wild data, except dry herbs.
-            ["OAK LEAVES", "CATMINT", "MAPLE SEED", "JUNIPER"]
-        ]
 
-        wild_data = [
-            ["RED FEATHERS", "BLUE FEATHERS", "JAY FEATHERS", "MOTH WINGS", "CICADA WINGS"]
-        ]
+        # Accessories
+        # accent are things like leaves and metal just to be recolored :)
+        for a, i in enumerate(['base', 'shade', 'line', 'accent']):
+            self.make_group('accessories/accessories', (a, 0), f'bow{i}')
+        for a, i in enumerate(['base', 'shade', 'line', 'accent']):
+            self.make_group('accessories/accessories', (a, 1), f'collar{i}')
+        for a, i in enumerate(['base', 'shade', 'line', 'accent']):
+            self.make_group('accessories/accessories', (a, 2), f'nylon{i}')
+        for a, i in enumerate(['base', 'shade', 'line', 'accent']):
+            self.make_group('accessories/accessories', (a, 3), f'bell{i}')
 
-        collars_data = [
-            ["CRIMSON", "BLUE", "YELLOW", "CYAN", "RED", "LIME"],
-            ["GREEN", "RAINBOW", "BLACK", "SPIKES", "WHITE"],
-            ["PINK", "PURPLE", "MULTI", "INDIGO"]
-        ]
+        # Natural accessories
+        for a, i in enumerate(['base', 'shade', 'line', 'accent']):
+            self.make_group('accessories/herbaccessories', (a, 0), f'berries{i}')
+        for a, i in enumerate(['base', 'shade', 'line', 'accent']):
+            self.make_group('accessories/herbaccessories', (a, 1), f'nettle{i}')
+        for a, i in enumerate(['base', 'shade', 'line', 'accent']):
+            self.make_group('accessories/herbaccessories', (a, 2), f'earleaves{i}')
+        for a, i in enumerate(['base', 'shade', 'line', 'accent']):
+            self.make_group('accessories/herbaccessories', (a, 3), f'poppy{i}')
+        for a, i in enumerate(['base', 'shade', 'line', 'accent']):
+            self.make_group('accessories/herbaccessories', (a, 4), f'flowers{i}')
+        for a, i in enumerate(['base', 'shade', 'line', 'accent']):
+            self.make_group('accessories/herbaccessories', (a, 5), f'laurel{i}')
+        for a, i in enumerate(['base', 'shade', 'line', 'accent']):
+            self.make_group('accessories/herbaccessories', (a, 6), f'catmint{i}')
+        for a, i in enumerate(['base', 'shade', 'line', 'accent']):
+            self.make_group('accessories/herbaccessories', (a, 7), f'maple{i}')
+        for a, i in enumerate(['base', 'shade', 'line', 'accent']):
+            self.make_group('accessories/herbaccessories', (a, 8), f'lavender{i}')
+        for a, i in enumerate(['base', 'shade', 'line', 'accent']):
+            self.make_group('accessories/herbaccessories', (a, 9), f'bluebells{i}')
+        for a, i in enumerate(['base', 'shade', 'line', 'accent']):
+            self.make_group('accessories/herbaccessories', (a, 10), f'leaves{i}')
+        for a, i in enumerate(['base', 'shade', 'line', 'accent']):
+            self.make_group('accessories/herbaccessories', (a, 10), f'petals{i}')
+        for a, i in enumerate(['base', 'shade', 'line', 'accent']):
+            self.make_group('accessories/herbaccessories', (a, 11), f'berries2{i}')
+        for a, i in enumerate(['base', 'shade', 'line', 'accent']):
+            self.make_group('accessories/herbaccessories', (a, 12), f'seed{i}')
+        for a, i in enumerate(['base', 'shade', 'line', 'accent']):
+            self.make_group('accessories/herbaccessories', (a, 13), f'stalk{i}')
 
-        bellcollars_data = [
-            ["CRIMSONBELL", "BLUEBELL", "YELLOWBELL", "CYANBELL", "REDBELL", "LIMEBELL"],
-            ["GREENBELL", "RAINBOWBELL", "BLACKBELL", "SPIKESBELL", "WHITEBELL"],
-            ["PINKBELL", "PURPLEBELL", "MULTIBELL", "INDIGOBELL"]
-        ]
+        # Wild accessories
+        for a, i in enumerate(['base', 'shade', 'line', 'accent']):
+            self.make_group('accessories/wildaccessories', (a, 0), f'moth{i}')
+        for a, i in enumerate(['base', 'shade', 'line', 'accent']):
+            self.make_group('accessories/wildaccessories', (a, 1), f'cicada{i}')
+        for a, i in enumerate(['base', 'shade', 'line', 'accent']):
+            self.make_group('accessories/wildaccessories', (a, 2), f'feathers{i}')
+        for a, i in enumerate(['base', 'shade', 'line', 'accent']):
+            self.make_group('accessories/wildaccessories', (a, 3), f'largemoth{i}')
 
-        bowcollars_data = [
-            ["CRIMSONBOW", "BLUEBOW", "YELLOWBOW", "CYANBOW", "REDBOW", "LIMEBOW"],
-            ["GREENBOW", "RAINBOWBOW", "BLACKBOW", "SPIKESBOW", "WHITEBOW"],
-            ["PINKBOW", "PURPLEBOW", "MULTIBOW", "INDIGOBOW"]
-        ]
-
-        nyloncollars_data = [
-            ["CRIMSONNYLON", "BLUENYLON", "YELLOWNYLON", "CYANNYLON", "REDNYLON", "LIMENYLON"],
-            ["GREENNYLON", "RAINBOWNYLON", "BLACKNYLON", "SPIKESNYLON", "WHITENYLON"],
-            ["PINKNYLON", "PURPLENYLON", "MULTINYLON", "INDIGONYLON"]
-        ]
-
-        # medcatherbs
-        for row, herbs in enumerate(medcatherbs_data):
-            for col, herb in enumerate(herbs):
-                self.make_group('medcatherbs', (col, row), f'acc_herbs{f}_{herb}')
-        self.make_group('medcatherbs', (5, 2), 'acc_herbs{f}_DRY HERBS')
-
-        # wild
-        for row, wilds in enumerate(wild_data):
-            for col, wild in enumerate(wilds):
-                self.make_group('medcatherbs', (col, 2), f'acc_wild{f}_{wild}')
-
-        # collars
-        for row, collars in enumerate(collars_data):
-            for col, collar in enumerate(collars):
-                self.make_group('collars', (col, row), f'collars{f}_{collar}')
-
-        # bellcollars
-        for row, bellcollars in enumerate(bellcollars_data):
-            for col, bellcollar in enumerate(bellcollars):
-                self.make_group('bellcollars', (col, row), f'collars{f}_{bellcollar}')
-
-        # bowcollars
-        for row, bowcollars in enumerate(bowcollars_data):
-            for col, bowcollar in enumerate(bowcollars):
-                self.make_group('bowcollars', (col, row), f'collars{f}_{bowcollar}')
-
-        # nyloncollars
-        for row, nyloncollars in enumerate(nyloncollars_data):
-            for col, nyloncollar in enumerate(nyloncollars):
-                self.make_group('nyloncollars', (col, row), f'collars{f}_{nyloncollar}')
+        # Accessories patterns
+        for a, i in enumerate(['dots', 'stripes', 'gradient1', 'gradient2', 'gradient3', 'gradient4']):
+            self.make_group('accessories/patterns', (a, 0), f'bow{i}')
 
     def load_symbols(self):
         """

@@ -141,6 +141,7 @@ class Cat:
         backstory="clanborn",
         parent1=None,
         parent2=None,
+        missing_parent=None,
         par2species=None,
         suffix=None,
         specsuffix_hidden=False,
@@ -200,6 +201,7 @@ class Cat:
         )
         self.parent1 = parent1
         self.parent2 = parent2
+        self.missing_parent = missing_parent
         self.par2species = par2species
         self.adoptive_parents = []
         self.pelt = pelt if pelt else Pelt()
@@ -318,7 +320,7 @@ class Cat:
 
         # These things should only run when generating a new cat, rather than loading one in.
         if not loading_cat:
-            self.init_generate_cat(skill_dict)
+            self.init_generate_cat(skill_dict, self.missing_parent)
 
         # In camp status
         self.in_camp = 1
@@ -416,7 +418,7 @@ class Cat:
                 ):
                     self.age = key_age
 
-    def init_generate_cat(self, skill_dict):
+    def init_generate_cat(self, skill_dict, missing_parent):
         """
         Used to roll a new cat
         :param skill_dict: TODO what is a skill dict exactly
@@ -451,11 +453,11 @@ class Cat:
                 self.genderalign = "nonbinary"
 
         # APPEARANCE
-        self.pelt = Pelt.generate_new_pelt(
-            self.gender,
-            [Cat.fetch_cat(i) for i in (self.parent1, self.parent2) if i],
-            self.age,
-        )
+        if missing_parent is not None:
+                print(missing_parent)
+                self.pelt = Pelt.generate_new_pelt(self.gender, [Cat.fetch_cat(i) for i in (self.parent1, self.parent2) if i], self.age, self.missing_parent)
+        else:
+            self.pelt = Pelt.generate_new_pelt(self.gender, [Cat.fetch_cat(i) for i in (self.parent1, self.parent2) if i], self.age)
 
         # Personality
         self.personality = Personality(kit_trait=self.is_baby())
@@ -2046,18 +2048,10 @@ class Cat:
             return
 
         # remove accessories if need be
-        if "NOTAIL" in self.pelt.scars and self.pelt.accessory in [
-            "RED FEATHERS",
-            "BLUE FEATHERS",
-            "JAY FEATHERS",
-        ]:
-            self.pelt.accessory = None
-        if "HALFTAIL" in self.pelt.scars and self.pelt.accessory in [
-            "RED FEATHERS",
-            "BLUE FEATHERS",
-            "JAY FEATHERS",
-        ]:
-            self.pelt.accessory = None
+        if 'NOTAIL' in self.pelt.scars and self.pelt.accessory_type in Pelt.tail_accessories:
+            self.pelt.accessory_type = None
+        if 'HALFTAIL' in self.pelt.scars and self.pelt.accessory_type in Pelt.tail_accessories:
+            self.pelt.accessory_type = None
 
         condition = PERMANENT[name]
         new_condition = False
@@ -3453,7 +3447,7 @@ class Cat:
                 "skin": self.pelt.skin,
                 "skill_dict": self.skills.get_skill_dict(),
                 "scars": self.pelt.scars if self.pelt.scars else [],
-                "accessory": self.pelt.accessory,
+                "accessory_dict": self.get_accessory_dict(),
                 "experience": self.experience,
                 "dead_moons": self.dead_for,
                 "current_apprentice": [appr for appr in self.apprentice],
@@ -3465,6 +3459,21 @@ class Cat:
                 "prevent_fading": self.prevent_fading,
                 "favourite": self.favourite,
             }
+            
+    def get_accessory_dict(self):
+        """accessory dictionary waeh normal tuesday y'know"""
+        return {
+            "accessory": self.pelt.accessory_type,
+            "type": self.pelt.accessory_category,
+            "color": self.pelt.accessory_color,
+            "shade": self.pelt.accessory_shade,
+
+            "accent_color": self.pelt.acc_accent_color,
+
+            "pattern": self.pelt.accessory_pattern,
+            "pattern_color": self.pelt.accessory_p_color,
+            "pattern_shade": self.pelt.accessory_p_shade
+        }
 
 
 # ---------------------------------------------------------------------------- #
