@@ -749,7 +749,7 @@ class Pelt:
 
             par_markcolors.add(str(missing_parent["marking_color"]))
             par_markshades.add(str(missing_parent["marking_shade"]))
-
+            
             # Gather if they have white in their pelt.
             par_white.append(str(missing_parent["white"]))
 

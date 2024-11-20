@@ -1367,11 +1367,11 @@ class Events:
         #  outside, or doesn't exist, make the deputy leader.
         if game.clan.deputy:
             if (
-                game.clan.deputy is not None
-                and not game.clan.deputy.dead
-                and not game.clan.deputy.outside
-                (leader_dead or leader_outside) and \
-                self.protege is None
+                game.clan.deputy is not None and \
+                    not game.clan.deputy.dead and \
+                    not game.clan.deputy.outside and \
+                    (leader_dead or leader_outside) and \
+                    self.protege is None
             ):
                 game.clan.new_leader(game.clan.deputy)
                 game.clan.leader_lives = 9

@@ -676,6 +676,7 @@ def create_new_cat(
         outside: bool = False,
         parent1: str = None,
         parent2: str = None,
+        blood_parent_missing: dict = None
 ) -> list:
     """
     This function creates new cats and then returns a list of those cats
@@ -744,6 +745,31 @@ def create_new_cat(
             status = "warrior"
         elif age >= 120:
             status = "elder"
+            
+    if parent1 and parent2 is None:
+        # create missing 
+        bp_sel = [
+                choices(Pelt.color_categories, weights=Pelt.color_weights, k=1)[0], 
+                choices(Pelt.shade_categories, weights=Pelt.shade_weights, k=1)[0], 
+                choices(Pelt.marking_color_categories, weights=Pelt.m_color_weights, k=1)[0], 
+                choices(Pelt.marking_shade_categories, weights=Pelt.m_shade_weights, k=1)[0], 
+                choices(Pelt.eye_color_categories, weights=Pelt.e_color_weights, k=1)[0], 
+                choices(Pelt.eye_color_categories, weights=Pelt.e_color_weights, k=1)[0],
+                choices(Pelt.eye_color_categories, weights=Pelt.e_color_weights, k=1)[0],
+                choices(Pelt.pelt_categories, weights=Pelt.marking_weights, k=1)[0], 
+                choices(Pelt.pelt_length, k=1)[0]
+                ]
+        blood_parent_missing = dict({
+                "tint_color": bp_sel[0], 
+                "tint_shade": bp_sel[1], 
+                "marking_color": bp_sel[2], 
+                "marking_shade": bp_sel[3], 
+                "eye_color": bp_sel[4], 
+                "eye_s_color": bp_sel[5], 
+                "eye_p_color": bp_sel[6],
+                "marking": bp_sel[7],
+                "length": bp_sel[8],
+                "white": bool(choice([1, 0]))})
 
     # cat creation and naming time
     for index in range(number_of_cats):
@@ -763,6 +789,7 @@ def create_new_cat(
                 backstory=backstory,
                 parent1=parent1,
                 parent2=parent2,
+                missing_parent=blood_parent_missing
             )
         else:
             # grab starting names and accs for loners/kittypets
@@ -798,6 +825,7 @@ def create_new_cat(
                         backstory=backstory,
                         parent1=parent1,
                         parent2=parent2,
+                        missing_parent=blood_parent_missing
                     )
                 else:  # completely new name
                     new_cat = Cat(
@@ -808,6 +836,7 @@ def create_new_cat(
                         backstory=backstory,
                         parent1=parent1,
                         parent2=parent2,
+                        missing_parent=blood_parent_missing
                     )
             # these cats keep their old names
             else:
@@ -821,6 +850,7 @@ def create_new_cat(
                     backstory=backstory,
                     parent1=parent1,
                     parent2=parent2,
+                    missing_parent=blood_parent_missing
                 )
 
         # give em a collar if they got one
