@@ -245,6 +245,8 @@ class Clan:
         for cat_id in Cat.all_cats:
             Cat.all_cats.get(cat_id).init_all_relationships()
             Cat.all_cats.get(cat_id).backstory = "clan_founder"
+            if Cat.all_cats.get(cat_id).status == 'leader':
+                Cat.all_cats.get(cat_id).pelt.alicorn = True
             if Cat.all_cats.get(cat_id).status == "apprentice":
                 Cat.all_cats.get(cat_id).status_change("apprentice")
             Cat.all_cats.get(cat_id).thoughts()
@@ -406,6 +408,7 @@ class Clan:
             self.history.add_lead_ceremony(leader)
             self.leader = leader
             Cat.all_cats[leader.ID].status_change("leader")
+            Cat.all_cats[leader.ID].pelt.alicorn = True
             self.leader_predecessors += 1
             self.leader_lives = 9
         game.switches["new_leader"] = None

@@ -527,28 +527,30 @@ class Pelt:
         elif self.white_patches in ['SEPIAPOINT', 'MINKPOINT', 'SEALPOINT']:
             self.white_patches_tint = "none"
 
-        if self.cat_sprites['adult'] not in [2, 5, 7, 8]:
-            if gender == 'female' and self.alicorn == True:
-                self.cat_sprites['adult'] = 7
-            elif gender == 'male' and self.alicorn == True:
+        if self.cat_sprites['adult'] not in [7, 8] and self.alicorn == True:
+            if gender == 'male':
                 self.cat_sprites['adult'] = 8
-            elif gender == 'female' and self.alicorn == False:
-                self.cat_sprites['adult'] = 2
-            elif gender == 'male' and self.alicorn == False:
+            else:
+                self.cat_sprites['adult'] = 7
+        elif self.cat_sprites['adult'] not in [2, 5] and self.alicorn == False:
+            if gender == 'male':
                 self.cat_sprites['adult'] = 5
-            self.cat_sprites['young adult'] = self.cat_sprites['adult']
-            self.cat_sprites['senior adult'] = self.cat_sprites['adult']
-            self.cat_sprites['para_adult'] = self.cat_sprites['adult']
-            
-        if self.cat_sprites['senior'] not in [6, 9, 10, 11]:
-            if gender == 'female' and self.alicorn == True:
-                self.cat_sprites['adult'] = 10
-            elif gender == 'male' and self.alicorn == True:
-                self.cat_sprites['adult'] = 11
-            elif gender == 'female' and self.alicorn == False:
-                self.cat_sprites['adult'] = 6
-            elif gender == 'male' and self.alicorn == False:
-                self.cat_sprites['adult'] = 9
+            else:
+                self.cat_sprites['adult'] = 2
+        self.cat_sprites['young adult'] = self.cat_sprites['adult']
+        self.cat_sprites['senior adult'] = self.cat_sprites['adult']
+        self.cat_sprites['para_adult'] = self.cat_sprites['adult']
+        
+        if self.cat_sprites['senior'] not in [10, 11] and self.alicorn == True:
+            if gender == 'male':
+                self.cat_sprites['senior'] = 11
+            else:
+                self.cat_sprites['senior'] = 10
+        elif self.cat_sprites['senior'] not in [6, 9] and self.alicorn == False:
+            if gender == 'male':
+                self.cat_sprites['senior'] = 9
+            else:
+                self.cat_sprites['senior'] = 6
         
         if self.pattern in convert_dict["old_tortie_patches"]:
             old_pattern = self.pattern

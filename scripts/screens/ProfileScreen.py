@@ -819,7 +819,7 @@ class ProfileScreen(Screens):
         output += "\n"
 
         # SPECIES
-        if the_cat.alicorn == False:
+        if the_cat.pelt.alicorn == False:
             output += str(the_cat.species)
         else:
             output += "alicorn (formerly " + str(the_cat.species) + ")"
@@ -964,7 +964,7 @@ class ProfileScreen(Screens):
         elif the_cat.status in ['mediator']:
             output += "protege"
         elif the_cat.status in ['medicine cat']:
-            output += "doctor"
+            output += "royal medic"
         else:
             output += the_cat.status
 
