@@ -954,6 +954,14 @@ class ProfileScreen(Screens):
             output += "<font color='#FF0000'>lost</font>"
         elif the_cat.exiled:
             output += "<font color='#FF0000'>exiled</font>"
+        elif the_cat.status in ['leader']:
+            output += "princess"
+        elif the_cat.status in ['deputy']:
+            output += "captain of the guard"
+        elif the_cat.status in ['mediator']:
+            output += "protege"
+        elif the_cat.status in ['medicine cat']:
+            output += "doctor"
         else:
             output += the_cat.status
 
@@ -1355,7 +1363,7 @@ class ProfileScreen(Screens):
                     )
                 else:
                     text += (
-                        " {PRONOUN/m_c/subject/CAP} joined the Clan on Moon "
+                        " {PRONOUN/m_c/subject/CAP} moved into town on Moon "
                         + str(beginning["moon"])
                         + " at the age of "
                         + str(beginning["age"])
