@@ -81,6 +81,11 @@ class Pelt:
     
     manestyles = ['None', 'Test']
     tailstyles = ['None', 'Test']
+    
+    straightmanes = ['Test']
+    straighttails = ['Test']
+    sillymanes = ['None']
+    sillytails = ['None']
 
     pelt_length = ["short", "medium", "long"]
     eye_colours = ['YELLOW', 'AMBER', 'HAZEL', 'PALEGREEN', 'GREEN', 'BLUE', 'DARKBLUE', 'GREY', 'CYAN', 'EMERALD',
@@ -385,7 +390,7 @@ class Pelt:
         new_pelt.init_eyes(parents, missing_parent)
         new_pelt.init_tint()
         new_pelt.init_pattern()
-        new_pelt.init_mane()
+        new_pelt.init_mane(parents, missing_parent)
 
         return new_pelt
 
@@ -681,6 +686,7 @@ class Pelt:
         par_markcolors = set()
         par_markshades = set()
         par_peltcategories = set()
+        par_manecolors = set()
         combo_peltcolors = list()
         combo_markcolors = list()
         par_pelts = []
@@ -696,6 +702,10 @@ class Pelt:
                 # Gather pelt tints
                 par_peltcolors.add(p.pelt.tint_color)
                 par_peltshades.add(p.pelt.tint_shade)
+                
+                par_manecolors.add(p.pelt.mane_color)
+                if p.pelt.mane_color2 is not None:
+                    par_manecolors.add(p.pelt.mane_color2)
 
                 # Gather tortie tints
                 if p.pelt.name in Pelt.torties:
@@ -735,6 +745,8 @@ class Pelt:
                 par_peltcolors.add(None)
                 par_peltlength.add(None)
                 par_peltshades.add(None)
+                par_manecolors.add(None)
+                
         # If this list is empty, something went wrong.
         if not par_peltcolors:
             print("Warning - no parents: pelt randomized")
@@ -758,9 +770,14 @@ class Pelt:
             par_markcolors.add(str(missing_parent["marking_color"]))
             par_markshades.add(str(missing_parent["marking_shade"]))
             
+            par_manecolors.add(str(missing_parent["mane_color"]))
+            if missing_parent["mane_color2"] is not None:
+                par_manecolors.add(str(missing_parent["mane_color2"]))
+            
             # Gather if they have white in their pelt.
             par_white.append(str(missing_parent["white"]))
-
+            
+        print(par_manecolors)
 
         if game.config_inheritance == "true":
             if game.inheritance_type == "color_categories":
@@ -1737,9 +1754,53 @@ class Pelt:
             self.mane_color2 = choice(color_tints)
         #print(color_tints)
 
-    def init_mane(self):
-        self.mane_style = choice(random.choices(Pelt.manestyles, weights=[1,5]))
-        self.tail_style = choice(random.choices(Pelt.tailstyles, weights=[1,8]))
+    def init_mane(self, parents, missing_parent):
+        mane_texturedict = {
+            'None': "silly",
+            'Test': "straight",
+            'Twilight': "straight",
+            'Bun': "wavy",
+            'Curled': "curled",
+            'YoungLuna': "wavy"
+            }
+        tail_texturedict = {
+            'None': "silly",
+            'Test': "straight",
+            'Twilight': "straight",
+            'Bun': "wavy",
+            'Curled': "curled",
+            'YoungLuna': "wavy"
+            }
+        
+        if not parents:
+            self.mane_style = choice(random.choices(Pelt.manestyles, weights=[1,5]))
+            self.tail_style = choice(random.choices(Pelt.tailstyles, weights=[1,8]))
+        else:
+            for p in parents:
+                parentmane = choice([i.pelt.mane_style for i in parents])
+                print(parentmane)
+                mane_texture = mane_texturedict[parentmane]
+                parenttail = choice([i.pelt.tail_style for i in parents])
+                print(parenttail)
+                tail_texture = tail_texturedict[parentmane]
+        
+            if mane_texture is "straight":
+                self.mane_style = choice(random.choices(Pelt.straightmanes, weights=[1]))
+            #elif texture is "wavy":
+            #    self.mane_style = choice(random.choices(Pelt.wavymanes, weights=[1,1]))
+            #elif texture is "curled":
+            #    self.mane_style = choice(random.choices(Pelt.curledmanes, weights=[1]))
+            else:
+                self.mane_style = choice(random.choices(Pelt.sillymanes, weights=[1]))
+                
+            if tail_texture is "straight":
+                self.tail_style = choice(random.choices(Pelt.straighttails, weights=[1]))
+            #elif texture is "wavy":
+            #    self.mane_style = choice(random.choices(Pelt.wavymanes, weights=[1,1]))
+            #elif texture is "curled":
+            #    self.mane_style = choice(random.choices(Pelt.curledmanes, weights=[1]))
+            else:
+                self.tail_style = choice(random.choices(Pelt.sillytails, weights=[1]))
         #self.mane_color = self.marking_tint
 
     @property
