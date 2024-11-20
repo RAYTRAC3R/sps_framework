@@ -1352,7 +1352,6 @@ class Events:
             # If leader is None, treat them as dead (since they are dead - and faded away.)
             leader_outside = True
         
-        print(self.protege)
         
         if self.protege is not None and (leader_dead or leader_outside):
             game.clan.new_leader(self.protege[0])

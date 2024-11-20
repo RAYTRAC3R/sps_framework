@@ -2807,7 +2807,7 @@ def generate_sprite(
                     )
                     
         if cat.pelt.tail_style:
-            print(cat.pelt.tail_style)
+            #print(cat.pelt.tail_style)
             tail_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
             tail_tint.fill(tuple(sprites.markings_tints["tint_colours"][cat.pelt.mane_color]))
             
@@ -2817,7 +2817,7 @@ def generate_sprite(
             new_sprite.blit(tail, (0, 0))
                     
         if cat.pelt.mane_style:
-            print(cat.pelt.mane_style)
+            #print(cat.pelt.mane_style)
             mane_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
             mane_tint.fill(tuple(sprites.markings_tints["tint_colours"][cat.pelt.mane_color]))
             

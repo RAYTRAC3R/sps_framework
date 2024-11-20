@@ -531,6 +531,9 @@ class Cat:
                     add_weight = in_weights[s]
                     par_weights[x] += add_weight[x]
 
+            print(par2species)
+            print(par_weights)
+
             try:
                 self.species = choices(species_list, weights=par_weights, k=1)[0]
             except:

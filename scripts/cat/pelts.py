@@ -385,7 +385,7 @@ class Pelt:
 
         return new_pelt
 
-    def check_and_convert(self, convert_dict):
+    def check_and_convert(self, convert_dict, gender):
         """Checks for old-type properties for the appearance-related properties
         that are stored in Pelt, and converts them. To be run when loading a cat in. """
         # Converts accessory to the new system :)
@@ -525,26 +525,20 @@ class Pelt:
         elif self.white_patches in ['SEPIAPOINT', 'MINKPOINT', 'SEALPOINT']:
             self.white_patches_tint = "none"
 
-        if self.length == 'long':
-            if self.cat_sprites['adult'] not in [9, 10, 11]:
-                if self.cat_sprites['adult'] == 0:
-                    self.cat_sprites['adult'] = 9
-                elif self.cat_sprites['adult'] == 1:
-                    self.cat_sprites['adult'] = 10
-                elif self.cat_sprites['adult'] == 2:
-                    self.cat_sprites['adult'] = 11
-                self.cat_sprites['young adult'] = self.cat_sprites['adult']
-                self.cat_sprites['senior adult'] = self.cat_sprites['adult']
-                self.cat_sprites['para_adult'] = 16
-        else:
-            self.cat_sprites['para_adult'] = 15
-        if self.cat_sprites['senior'] not in [12, 13, 14]:
-            if self.cat_sprites['senior'] == 3:
-                self.cat_sprites['senior'] = 12
-            elif self.cat_sprites['senior'] == 4:
-                self.cat_sprites['senior'] = 13
-            elif self.cat_sprites['senior'] == 5:
-                self.cat_sprites['senior'] = 14
+        if self.cat_sprites['adult'] not in [2, 5]:
+            if gender == 'female':
+                self.cat_sprites['adult'] = 2
+            elif gender == 'male':
+                self.cat_sprites['adult'] = 5
+            self.cat_sprites['young adult'] = self.cat_sprites['adult']
+            self.cat_sprites['senior adult'] = self.cat_sprites['adult']
+            self.cat_sprites['para_adult'] = self.cat_sprites['adult']
+            
+        if self.cat_sprites['senior'] not in [6, 9]:
+            if gender == 'female':
+                self.cat_sprites['adult'] = 6
+            elif gender == 'male':
+                self.cat_sprites['adult'] = 9
         
         if self.pattern in convert_dict["old_tortie_patches"]:
             old_pattern = self.pattern
@@ -1297,6 +1291,7 @@ class Pelt:
             self.accessory_category = "cicada"
         else:
             print("failed")
+
 
         possible_colors = sprites.accessory_tints["possible_tints"][f"{self.accessory_category}"]
         self.accessory_color = choice(possible_colors)
