@@ -3434,6 +3434,7 @@ class Cat:
                 "tortie_underfur_tint": self.pelt.tortie_underfur_tint,
                 "tortie_overfur_tint": self.pelt.tortie_overfur_tint,
                 "mane_style": self.pelt.mane_style,
+                "tail_style": self.pelt.tail_style,
                 "mane_color": self.pelt.marking_tint,
                 "sprite_kitten": self.pelt.cat_sprites["kitten"],
                 "sprite_adolescent": self.pelt.cat_sprites["adolescent"],

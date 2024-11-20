@@ -2776,6 +2776,16 @@ def generate_sprite(
                         special_flags=blendmode,
                     )
                     
+        if cat.pelt.tail_style:
+            print(cat.pelt.tail_style)
+            tail_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+            tail_tint.fill(tuple(sprites.markings_tints["tint_colours"][cat.pelt.mane_color]))
+            
+            tail = sprites.sprites['tailcolor' + f'{n}_' + cat.pelt.tail_style + cat_sprite].copy()
+            tail.blit(tail_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+            tail.blit(sprites.sprites['taillines' + f'{n}_' + cat.pelt.tail_style + cat_sprite], (0, 0))
+            new_sprite.blit(tail, (0, 0))
+                    
         if cat.pelt.mane_style:
             print(cat.pelt.mane_style)
             mane_tint = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
@@ -2785,6 +2795,7 @@ def generate_sprite(
             mane.blit(mane_tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
             mane.blit(sprites.sprites['manelines' + f'{n}_' + cat.pelt.mane_style + cat_sprite], (0, 0))
             new_sprite.blit(mane, (0, 0))
+            
 
         # draw accessories
         if not acc_hidden:

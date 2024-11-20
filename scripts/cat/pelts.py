@@ -80,6 +80,7 @@ class Pelt:
     tortiebases = ["Gradsocks", "Gradhoof"]
     
     manestyles = ['None', 'Test']
+    tailstyles = ['None', 'Test']
 
     pelt_length = ["short", "medium", "long"]
     eye_colours = ['YELLOW', 'AMBER', 'HAZEL', 'PALEGREEN', 'GREEN', 'BLUE', 'DARKBLUE', 'GREY', 'CYAN', 'EMERALD',
@@ -264,6 +265,7 @@ class Pelt:
                  tortie_underfur_tint:str=None,
                  tortie_overfur_tint:str=None,
                  mane_style:str=None,
+                 tail_style:str=None,
                  mane_color:str=None,
                  vitiligo: str = None,
                  points: str = None,
@@ -331,6 +333,7 @@ class Pelt:
         self.tortie_underfur_tint = tortie_underfur_tint
         self.tortie_overfur_tint = tortie_overfur_tint
         self.mane_style = mane_style
+        self.tail_style = tail_style
         self.mane_color = marking_tint
         self.vitiligo = vitiligo
         self.length = length
@@ -1702,7 +1705,8 @@ class Pelt:
             self.white_patches_tint = "none"
 
     def init_mane(self):
-        self.mane_style = choice(random.choices(Pelt.manestyles, weights=[1,3]))
+        self.mane_style = choice(random.choices(Pelt.manestyles, weights=[1,5]))
+        self.tail_style = choice(random.choices(Pelt.tailstyles, weights=[1,8]))
         self.mane_color = self.marking_tint
 
     @property
@@ -1830,11 +1834,11 @@ class Pelt:
 
         # Now it's time for gender
         if cat.genderalign in ["female", "trans female"]:
-            color_name = f"{color_name} she-cat"
+            color_name = f"{color_name} mare"
         elif cat.genderalign in ["male", "trans male"]:
-            color_name = f"{color_name} tom"
+            color_name = f"{color_name} stallion"
         else:
-            color_name = f"{color_name} cat"
+            color_name = f"{color_name} pony"
             
         if cat.pelt.marking_tint.replace('r__ ', '') in renamed_colors:
             if cat.pelt.marking == "Gradsocks":
