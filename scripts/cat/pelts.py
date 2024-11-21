@@ -688,7 +688,7 @@ class Pelt:
         par_markcolors = set()
         par_markshades = set()
         par_peltcategories = set()
-        par_manecolors = set()
+        par_manecolors = list()
         combo_peltcolors = list()
         combo_markcolors = list()
         par_pelts = []
@@ -705,9 +705,8 @@ class Pelt:
                 par_peltcolors.add(p.pelt.tint_color)
                 par_peltshades.add(p.pelt.tint_shade)
                 
-                par_manecolors.add(p.pelt.mane_color)
-                if p.pelt.mane_color2 is not None:
-                    par_manecolors.add(p.pelt.mane_color2)
+                par_manecolors.append(p.pelt.mane_color)
+                par_manecolors.append(p.pelt.mane_color2)
 
                 # Gather tortie tints
                 if p.pelt.name in Pelt.torties:
@@ -772,14 +771,39 @@ class Pelt:
             par_markcolors.add(str(missing_parent["marking_color"]))
             par_markshades.add(str(missing_parent["marking_shade"]))
             
-            #par_manecolors.add(str(missing_parent["mane_color"]))
-            #if missing_parent["mane_color2"] is not None:
-            #    par_manecolors.add(str(missing_parent["mane_color2"]))
+            #weights = [0, 5, 2]
+            #shade_selection = random.choices(Pelt.shade_categories, weights=weights, k=1)[0]
+            color_tints = sprites.cat_tints["possible_tints"][f"{missing_parent["tint_color"]}_{missing_parent["marking_shade"]}"]
+            color_tints = color_tints + (sprites.cat_tints["possible_tints"][f"{missing_parent["marking_color"]}_{missing_parent["marking_shade"]}"])
+            print("COLOR TINTS: " + str(color_tints))
+            missing_parent["mane_color"] =  choice(color_tints)
+            print("MISSING PARENT MANE COLOR 1: " + str(missing_parent["mane_color"]))
+            twotone = random.randint(0, 1)
+            if twotone == 1:
+                missing_parent["mane_color2"] = choice(color_tints)
+            else:
+                missing_parent["mane_color2"] = None
+                print("MISSING PARENT MANE COLOR 2: " + str(missing_parent["mane_color2"]))
+            
+            par_manecolors.append(str(missing_parent["mane_color"]))
+            if missing_parent["mane_color2"] is not None:
+                par_manecolors.append(str(missing_parent["mane_color2"]))
             
             # Gather if they have white in their pelt.
             par_white.append(str(missing_parent["white"]))
             
-        print(par_manecolors)
+        print("Parent Mane Colors: " + str(par_manecolors))
+        chosen_mane = random.choices(par_manecolors, k=1)[0]
+        twotone = random.randint(0, 1)
+        if twotone == 1:
+            chosen_mane2 = random.choices(par_manecolors, k=1)[0]
+        else:
+            chosen_mane2 = None
+        print("Chosen Mane Color 1: " + str(chosen_mane))
+        print("Chosen Mane Color 2: " + str(chosen_mane2))
+        
+        #mane color inheritance
+        
 
         if game.config_inheritance == "true":
             if game.inheritance_type == "color_categories":
@@ -1041,6 +1065,8 @@ class Pelt:
         self.marking = chosen_marking
         self.marking_color = chosen_marking_color
         self.marking_shade = chosen_marking_shade
+        self.mane_color = chosen_mane
+        self.mane_color2 = chosen_mane2
         self.length = chosen_pelt_length
         self.tortiebase = chosen_tortie_base  # This will be none if the cat isn't a tortie.
         return chosen_white
@@ -1742,19 +1768,26 @@ class Pelt:
             self.white_patches_tint = "none"
             
         #mane tint
-        
-        weights = [0, 5, 2]
-        shade_selection = random.choices(Pelt.shade_categories, weights=weights, k=1)[0]
-        color_tints = sprites.cat_tints["possible_tints"][f"{self.tint_color}_{shade_selection}"]
-        color_tints.append(self.marking_tint)
-        color_tints.append(self.overfur_tint)
-        color_tints.append(self.underfur_tint)
-        color_tints.append(self.eye_s_tint)
-        self.mane_color = choice(color_tints)
-        twotone = random.randint(0, 1)
-        if twotone == 1:
-            self.mane_color2 = choice(color_tints)
-        #print(color_tints)
+        if self.mane_color == None:
+            weights = [0, 5, 2]
+            shade_selection = random.choices(Pelt.shade_categories, weights=weights, k=1)[0]
+            color_tints = sprites.cat_tints["possible_tints"][f"{self.tint_color}_{shade_selection}"]
+            color_tints = color_tints + (sprites.cat_tints["possible_tints"][f"{self.marking_color}_{shade_selection}"])
+            color_tints = color_tints + (sprites.cat_tints["possible_tints"][f"{self.eye_color}_{shade_selection}"])
+            color_tints = color_tints + (sprites.cat_tints["possible_tints"][f"{self.eye_s_color}_{shade_selection}"])
+            color_tints = color_tints + (sprites.cat_tints["possible_tints"][f"{self.eye_p_color}_{shade_selection}"])
+            color_tints.append(self.marking_tint)
+            color_tints.append(self.overfur_tint)
+            color_tints.append(self.underfur_tint)
+            color_tints.append(self.eye_s_tint)
+            print("COLOR TINTS: " + str(color_tints))
+            self.mane_color = choice(color_tints)
+            print("MANE COLOR 1: " + str(self.mane_color))
+            twotone = random.randint(0, 1)
+            if twotone == 1:
+                self.mane_color2 = choice(color_tints)
+            print("MANE COLOR 2: " + str(self.mane_color2))
+            #print(color_tints)
 
     def init_mane(self, parents, missing_parent):
         mane_texturedict = {
