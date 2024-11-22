@@ -180,8 +180,8 @@ class Sprites:
             for a, i in enumerate(['Gradsocks', 'Gradhoof']):
                 self.make_group('markings/markings', (a, 0), f'mark{f}_{i}')
                 
-            manes = ['None', 'Test', 'Twilight', 'Bun', 'Curled', 'YoungLuna']
-            tails = ['None', 'Test', 'Twilight', 'Bun', 'Curled', 'YoungLuna']
+            manes = ['None', 'Test', 'Twilight', 'Bun', 'Bonbon', 'YoungLuna']
+            tails = ['None', 'Test', 'Twilight', 'Bun', 'Bonbon', 'YoungLuna']
             
             for a, i in enumerate(manes):
                 self.make_group('manes/manecolor', (a, 0), f'manecolor{f}_{i}')

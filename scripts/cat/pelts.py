@@ -79,20 +79,20 @@ class Pelt:
                       'BRIE', 'BELOVED', 'BODY', 'SHILOH', 'FRECKLED', 'HEARTBEAT']
     tortiebases = ["Gradsocks", "Gradhoof"]
     
-    #manestyles = ['None', 'Test', 'Twilight', 'Bun', 'Curled', 'YoungLuna']
-    manestyles = ['None', 'Test', 'Twilight', 'Bun']
-    #tailstyles = ['None', 'Test', 'Twilight', 'Bun', 'Curled', 'YoungLuna']
-    tailstyles = ['None', 'Test', 'Twilight', 'Bun']
+    manestyles = ['None', 'Test', 'Twilight', 'Bun', 'Bonbon', 'YoungLuna']
+    tailstyles = ['None', 'Test', 'Twilight', 'Bun', 'Bonbon', 'YoungLuna']
     
     straightmanes = ['Test', 'Twilight']
-    straighttails = ['Test', 'Twilight']
-    wavymanes = ['Bun']
+    straighttails = ['Test', 'Twilight', 'Bun']
+    wavymanes = ['Bun', 'YoungLuna']
+    curledmanes = ['Bonbon']
+    curledtails = ['Bonbon', 'YoungLuna']
     sillymanes = ['None']
     sillytails = ['None']
-    mane_tex_categories = [ sillymanes, straightmanes, wavymanes ]
-    mane_weights = [1,5,5]
-    tail_tex_categories = [ sillytails, straighttails ]
-    tail_weights = [1,10]
+    mane_tex_categories = [ sillymanes, straightmanes, curledmanes, wavymanes ]
+    mane_weights = [1,5,5,5]
+    tail_tex_categories = [ sillytails, straighttails, curledtails ]
+    tail_weights = [1,10,10]
 
     pelt_length = ["short", "medium", "long"]
     eye_colours = ['YELLOW', 'AMBER', 'HAZEL', 'PALEGREEN', 'GREEN', 'BLUE', 'DARKBLUE', 'GREY', 'CYAN', 'EMERALD',
@@ -1807,9 +1807,9 @@ class Pelt:
             'None': "silly",
             'Test': "straight",
             'Twilight': "straight",
-            'Bun': "wavy",
-            'Curled': "curled",
-            'YoungLuna': "wavy"
+            'Bun': "straight",
+            'Bonbon': "curled",
+            'YoungLuna': "curled"
             }
         
         if not parents:
@@ -1839,17 +1839,17 @@ class Pelt:
                 self.mane_style = choice(random.choices(Pelt.straightmanes))
             elif mane_texture == "wavy":
                 self.mane_style = choice(random.choices(Pelt.wavymanes))
-            #elif texture is "curled":
-            #    self.mane_style = choice(random.choices(Pelt.curledmanes, weights=[1]))
+            elif texture is "curled":
+                self.mane_style = choice(random.choices(Pelt.curledmanes))
             else:
                 self.mane_style = choice(random.choices(Pelt.sillymanes))
                 
             if tail_texture == "straight":
                 self.tail_style = choice(random.choices(Pelt.straighttails))
             elif tail_texture == "wavy":
-                self.tail_style = choice(random.choices(Pelt.straighttails))
-            #elif texture is "curled":
-            #    self.mane_style = choice(random.choices(Pelt.curledmanes, weights=[1]))
+                self.tail_style = choice(random.choices(Pelt.straighttails + Pelt.curledtails))
+            elif texture is "curled":
+                self.tail_style = choice(random.choices(Pelt.curledtails))
             else:
                 self.tail_style = choice(random.choices(Pelt.sillytails))
         #self.mane_color = self.marking_tint
