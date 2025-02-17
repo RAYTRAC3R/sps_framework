@@ -54,9 +54,10 @@ def medical_cats_condition_fulfilled(all_cats,
     can_care_for = int(adjust_med_number * (amount_per_med + 1))
 
     relevant_cats = list(
-        filter(lambda c: not c.dead and not c.outside, all_cats))
+        filter(lambda c: not c.dead and not c.outside, all_cats)
+    )
 
-    if give_clanmembers_covered is True:
+    if give_clanmembers_covered:
         return can_care_for
     if can_care_for >= len(relevant_cats):
         fulfilled = True
@@ -68,6 +69,9 @@ def get_amount_cat_for_one_medic(clan):
     amount = 10
     if clan and clan.game_mode == 'cruel season':
         amount = 7
+    if clan and clan.game_mode == 'classic':
+        # just hope nobody has clans with more than 1,000,000 cats in classic
+        amount = 1000000
     return amount
 
 

@@ -9,8 +9,8 @@ from platformdirs import user_data_dir
 
 logger = logging.getLogger(__name__)
 
-VERSION_NAME = "7b48f10bef77805f36fa9fbc2587e6b27408acc2"
-SPS_VERSION = "1.1.2dev"
+VERSION_NAME = "0d225b0cebfe49b5915d645e83a92087ba30a2d4"
+SPS_VERSION = "1.1.4dev"
 # This is saved in the Clan save-file, and is used for save-file converstion.
 SAVE_VERSION_NUMBER = 3
 
