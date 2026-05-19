@@ -778,8 +778,8 @@ class Pelt:
             
             #weights = [0, 5, 2]
             #shade_selection = random.choices(Pelt.shade_categories, weights=weights, k=1)[0]
-            color_tints = sprites.cat_tints["possible_tints"][f"{missing_parent["tint_color"]}_{missing_parent["marking_shade"]}"]
-            color_tints = color_tints + (sprites.cat_tints["possible_tints"][f"{missing_parent["marking_color"]}_{missing_parent["marking_shade"]}"])
+            color_tints = sprites.cat_tints["possible_tints"][f'{missing_parent["tint_color"]}_{missing_parent["marking_shade"]}']
+            color_tints = color_tints + (sprites.cat_tints["possible_tints"][f'{missing_parent["marking_color"]}_{missing_parent["marking_shade"]}'])
             print("COLOR TINTS: " + str(color_tints))
             missing_parent["mane_color"] =  choice(color_tints)
             print("MISSING PARENT MANE COLOR 1: " + str(missing_parent["mane_color"]))
